@@ -35,3 +35,20 @@
   border-radius: $radius-lg;
   box-shadow: $shadow-sm;
 }
+
+// Liquid-glass panel (matches Header pill style)
+// Usage: @include glass-panel; or @include glass-panel($radius: 24px, $padding: 24px);
+@mixin glass-panel($radius: $radius-lg, $padding: null) {
+  border-radius: $radius;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+
+  @if $padding != null {
+    padding: $padding;
+  }
+}

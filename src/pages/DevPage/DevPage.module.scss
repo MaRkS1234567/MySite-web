@@ -6,7 +6,8 @@
 }
 
 .hero {
-  padding: $space-10 0 $space-8;
+  @include m.glass-panel($radius: $radius-lg, $padding: $space-7);
+  margin-top: $space-8;
 }
 
 .title {
@@ -27,7 +28,7 @@
 
 .section {
   margin-top: $space-8;
-  @include m.surface-card;
+  @include m.glass-panel;
   padding: $space-6;
 }
 
@@ -45,7 +46,7 @@
 
 @media (max-width: ($bp-md - 1px)) {
   .hero {
-    padding: $space-8 0 $space-6;
+    padding: $space-6;
   }
 
   .title {
