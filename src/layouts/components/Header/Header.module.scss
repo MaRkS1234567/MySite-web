@@ -1,31 +1,86 @@
 @use '../../../shared/styles/variables' as *;
+@use '../../../shared/styles/mixins' as m;
 
+/*
+  Sticky header wrapper: NO full-width bar.
+  Only the glass pill is visible.
+*/
 .header {
   position: sticky;
   top: 0;
   z-index: $z-header;
-  background: rgba(15, 17, 22, 0.72);
-  border-bottom: 1px solid $border;
-  backdrop-filter: blur(10px);
+  padding: 12px 0;
 }
 
-.inner {
+.row {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: $space-3;
-  padding: $space-4 0;
+  justify-content: center;
+  min-height: 64px;
+}
+
+/*
+  One glass pill that expands:
+  - On landing: centered, only Tutor/Dev
+  - On expanded: still centered, reveals menu INSIDE the pill
+*/
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 8px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+
+  transition:
+    transform $dur-3 $ease-out,
+    background $dur-3 $ease-out,
+    border-color $dur-3 $ease-out,
+    box-shadow $dur-3 $ease-out;
+}
+
+.pill:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 22px 70px rgba(0, 0, 0, 0.42),
+    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+}
+
+/* Segmented control */
+.segmentWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.segmentDivider {
+  width: 1px;
+  height: 26px;
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .navLink {
   display: inline-flex;
-  border-radius: $radius-md;
+  border-radius: 999px;
 }
 
-/* Keep the link wrapper neutral; style the button inside */
+/* Make the buttons feel like segmented control */
 .navLink button {
-  height: 38px;
-  padding: 0 12px;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: transparent;
+  border-color: transparent;
 }
 
 .navLink:hover button {
@@ -35,4 +90,76 @@
 .navLinkActive button {
   background: $accent-soft;
   border-color: transparent;
+}
+
+/*
+  Menu reveal area INSIDE pill
+  Animate max-width + opacity for a "pill expands" effect.
+*/
+.pillMenu {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+
+  max-width: 0;
+  opacity: 0;
+  transform: translateX(-6px);
+
+  transition:
+    max-width $dur-3 $ease-out,
+    opacity $dur-3 $ease-out,
+    transform $dur-3 $ease-out;
+}
+
+.menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 6px; /* breathing room before pill edge */
+}
+
+.menuLink {
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  font-weight: $fw-medium;
+  color: $text-muted;
+
+  padding: 8px 10px;
+  border-radius: $radius-md;
+
+  transition:
+    color $dur-2 $ease-out,
+    background $dur-2 $ease-out,
+    transform $dur-2 $ease-out;
+}
+
+.menuLink:hover {
+  color: $text;
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+}
+
+.menuLink:focus-visible {
+  @include m.focus-ring;
+}
+
+.menuLinkActive {
+  color: $text;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Expanded: reveal menu inside pill (pill visually grows) */
+.isExpanded .pillMenu {
+  max-width: 760px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Responsive: on small screens keep only the segmented control */
+@media (max-width: ($bp-md - 1px)) {
+  .isExpanded .pillMenu {
+    max-width: 0;
+    opacity: 0;
+    transform: translateX(-6px);
+  }
 }
