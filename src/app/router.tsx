@@ -1,9 +1,8 @@
-
-
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 
 import { RootLayout } from '../layouts/RootLayout'
 import { DevPage } from '../pages/DevPage'
+import { LandingPage } from '../pages/LandingPage/LandingPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { TutorPage } from '../pages/TutorPage'
 
@@ -13,7 +12,7 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       // Default route
-      { index: true, element: <Navigate to="/tutor" replace /> },
+      { index: true, element: <LandingPage /> },
 
       // Main pages
       { path: 'tutor', element: <TutorPage /> },
