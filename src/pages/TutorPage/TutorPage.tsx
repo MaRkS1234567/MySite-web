@@ -1,16 +1,54 @@
-
-
+import { Button } from '../../shared/ui/Button'
 import { Container } from '../../shared/ui/Container'
 
 import styles from './TutorPage.module.scss'
 
 export function TutorPage() {
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    window.history.replaceState(null, '', `#${id}`)
+  }
+
   return (
     <section className={styles.page}>
       <Container>
         <header className={styles.hero}>
-          <h1 className={styles.title}>Tutor</h1>
-          <p className={styles.subtitle}>Tutor page scaffold.</p>
+          <div className={styles.heroContent}>
+            <h1 className={styles.title}>Tutor</h1>
+            <p className={styles.subtitle}>
+              Personalized tutoring in math, informatics and programming — focused on clear structure,
+              confidence and measurable progress.
+            </p>
+
+            <div className={styles.actions}>
+              <Button
+                variant="primary"
+                type="button"
+                onClick={() => {
+                  scrollTo('apply')
+                }}
+              >
+                Apply
+              </Button>
+
+              <Button
+                variant="ghost"
+                type="button"
+                onClick={() => {
+                  scrollTo('pricing')
+                }}
+              >
+                Pricing
+              </Button>
+            </div>
+          </div>
+
+          <div className={styles.heroVisual} aria-hidden="true">
+            <div className={styles.orb} />
+            <div className={styles.grid} />
+          </div>
         </header>
 
         <section id="directions" className={styles.section}>
