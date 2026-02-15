@@ -23,7 +23,7 @@
 /*
   One glass pill that expands:
   - On landing: centered, only Tutor/Dev
-  - On expanded: still centered, reveals menu INSIDE the pill
+  - On expanded: aligns left, reveals menu INSIDE the pill
 */
 .pill {
   display: inline-flex;
@@ -45,7 +45,8 @@
     transform $dur-3 $ease-out,
     background $dur-3 $ease-out,
     border-color $dur-3 $ease-out,
-    box-shadow $dur-3 $ease-out;
+    box-shadow $dur-3 $ease-out,
+    padding $dur-3 $ease-out;
 }
 
 .pill:hover {
@@ -96,6 +97,28 @@
   Menu reveal area INSIDE pill
   Animate max-width + opacity for a "pill expands" effect.
 */
+
+/*
+  Header states
+  - Landing: pill centered
+  - Expanded: pill moves to the left
+*/
+.isLanding .row {
+  justify-content: center;
+}
+
+.isExpanded .row {
+  justify-content: center;
+}
+
+.isExpanded .pill {
+  padding: 8px 10px; /* slightly wider feel */
+}
+
+.isExpanded .pillMenu {
+  transition-delay: 80ms;
+}
+
 .pillMenu {
   display: inline-flex;
   align-items: center;
@@ -115,6 +138,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  padding-left: 6px;
   padding-right: 6px; /* breathing room before pill edge */
 }
 
@@ -128,15 +152,15 @@
   border-radius: $radius-md;
 
   transition:
-    color $dur-2 $ease-out,
-    background $dur-2 $ease-out,
-    transform $dur-2 $ease-out;
+    color $dur-3 $ease-out,
+    background $dur-3 $ease-out,
+    transform $dur-3 $ease-out;
 }
 
 .menuLink:hover {
   color: $text;
   background: rgba(255, 255, 255, 0.05);
-  transform: translateY(-1px);
+  transform: translateY(-0.5px);
 }
 
 .menuLink:focus-visible {

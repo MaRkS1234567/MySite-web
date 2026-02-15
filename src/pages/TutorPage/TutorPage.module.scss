@@ -1,5 +1,58 @@
 @use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as m;
 
 .page {
-  padding: $space-8 0;
+  padding: $space-8 0 $space-10;
+}
+
+.hero {
+  padding: $space-10 0 $space-8;
+}
+
+.title {
+  font-size: $fs-40;
+  line-height: $lh-tight;
+  font-weight: $fw-bold;
+  letter-spacing: -0.02em;
+  color: $text;
+}
+
+.subtitle {
+  margin-top: $space-4;
+  font-size: $fs-18;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  max-width: 62ch;
+}
+
+.section {
+  margin-top: $space-8;
+  @include m.surface-card;
+  padding: $space-6;
+}
+
+.h2 {
+  font-size: $fs-24;
+  line-height: $lh-tight;
+  font-weight: $fw-semibold;
+  color: $text;
+}
+
+.text {
+  margin-top: $space-3;
+  color: $text-muted;
+}
+
+@media (max-width: ($bp-md - 1px)) {
+  .hero {
+    padding: $space-8 0 $space-6;
+  }
+
+  .title {
+    font-size: $fs-32;
+  }
+
+  .section {
+    padding: $space-5;
+  }
 }
