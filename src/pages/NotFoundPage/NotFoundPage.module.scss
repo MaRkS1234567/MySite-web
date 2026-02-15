@@ -1,3 +1,5 @@
+@use '../../shared/styles/variables' as *;
+
 .page {
-	padding: 24px 16px;
-  }
+  padding: $space-8 0;
+}

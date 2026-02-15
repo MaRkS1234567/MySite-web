@@ -1,0 +1,37 @@
+
+
+@use './variables' as *;
+
+// Media query helpers
+@mixin up($bp) {
+  @media (min-width: $bp) {
+    @content;
+  }
+}
+
+@mixin down($bp) {
+  @media (max-width: ($bp - 1px)) {
+    @content;
+  }
+}
+
+// Focus ring (accessible)
+@mixin focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 3px $accent-soft;
+}
+
+// Truncate text
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Surface card
+@mixin surface-card {
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+}

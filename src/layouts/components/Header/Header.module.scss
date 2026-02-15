@@ -1,17 +1,42 @@
-
+@use '../../../shared/styles/variables' as *;
 
 .header {
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: $z-header;
+  background: rgba(15, 17, 22, 0.72);
+  border-bottom: 1px solid $border;
+  backdrop-filter: blur(10px);
 }
 
 .inner {
   display: flex;
-  gap: 16px;
-  padding: 16px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $space-4;
+  padding: $space-4 0;
+}
+
+.inner a {
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  font-weight: $fw-medium;
+  color: $text-muted;
+  padding: 8px 10px;
+  border-radius: $radius-sm;
+  transition:
+    color $dur-2 $ease-out,
+    background $dur-2 $ease-out,
+    transform $dur-2 $ease-out;
+}
+
+.inner a:hover {
+  color: $text;
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-1px);
 }
 
 .active {
-  text-decoration: underline;
+  color: $text;
+  background: $accent-soft;
 }

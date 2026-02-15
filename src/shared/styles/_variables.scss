@@ -1,0 +1,90 @@
+
+
+/*
+  Design tokens
+  Dark (graphite) theme as default
+*/
+
+/* Container */
+$container-max: 1120px;
+$container-pad-x: 16px; // mobile side padding
+$container-pad-x-lg: 24px; // desktop side padding
+
+/* Breakpoints */
+$bp-sm: 480px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+
+/* Spacing scale (4px base) */
+$space-1: 4px;
+$space-2: 8px;
+$space-3: 12px;
+$space-4: 16px;
+$space-5: 20px;
+$space-6: 24px;
+$space-7: 32px;
+$space-8: 40px;
+$space-9: 48px;
+$space-10: 64px;
+
+/* Radius */
+$radius-xs: 8px;
+$radius-sm: 12px;
+$radius-md: 16px;
+$radius-lg: 24px;
+$radius-xl: 32px;
+
+/* Typography */
+$font-sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+  'Apple Color Emoji', 'Segoe UI Emoji';
+
+$fs-12: 12px;
+$fs-14: 14px;
+$fs-16: 16px;
+$fs-18: 18px;
+$fs-20: 20px;
+$fs-24: 24px;
+$fs-32: 32px;
+$fs-40: 40px;
+$fs-56: 56px;
+
+$lh-tight: 1.1;
+$lh-normal: 1.35;
+$lh-relaxed: 1.6;
+
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-semibold: 600;
+$fw-bold: 700;
+
+/* Colors (graphite) */
+$bg: #0f1116;
+$surface: #141824;
+$surface-2: #1a2030;
+$border: rgba(255, 255, 255, 0.08);
+
+$text: rgba(255, 255, 255, 0.92);
+$text-muted: rgba(255, 255, 255, 0.68);
+$text-faint: rgba(255, 255, 255, 0.48);
+
+$accent: #ff2a2a; // brand red
+$accent-soft: rgba(255, 42, 42, 0.15);
+
+$success: #22c55e;
+$warning: #f59e0b;
+$danger: #ef4444;
+
+/* Shadow */
+$shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.25);
+$shadow-md: 0 14px 40px rgba(0, 0, 0, 0.35);
+
+/* Motion */
+$ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+$dur-1: 120ms;
+$dur-2: 200ms;
+$dur-3: 320ms;
+
+/* Z-index */
+$z-header: 100;
+$z-overlay: 1000;
