@@ -13,30 +13,26 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: $space-4;
+  gap: $space-3;
   padding: $space-4 0;
 }
 
-.inner a {
-  font-size: $fs-14;
-  line-height: $lh-normal;
-  font-weight: $fw-medium;
-  color: $text-muted;
-  padding: 8px 10px;
-  border-radius: $radius-sm;
-  transition:
-    color $dur-2 $ease-out,
-    background $dur-2 $ease-out,
-    transform $dur-2 $ease-out;
+.navLink {
+  display: inline-flex;
+  border-radius: $radius-md;
 }
 
-.inner a:hover {
-  color: $text;
-  background: rgba(255, 255, 255, 0.04);
+/* Keep the link wrapper neutral; style the button inside */
+.navLink button {
+  height: 38px;
+  padding: 0 12px;
+}
+
+.navLink:hover button {
   transform: translateY(-1px);
 }
 
-.active {
-  color: $text;
+.navLinkActive button {
   background: $accent-soft;
+  border-color: transparent;
 }

@@ -63,6 +63,35 @@ a:hover {
   color: $accent;
 }
 
+/* Accent link (e.g., @marksharapov) */
+.linkAccent {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  color: $text;
+  border-radius: $radius-sm;
+  padding: 2px 6px;
+
+  transition:
+    color $dur-2 $ease-out,
+    background $dur-2 $ease-out,
+    transform $dur-2 $ease-out,
+    box-shadow $dur-2 $ease-out;
+}
+
+.linkAccent:hover {
+  color: $accent;
+  background: $accent-soft;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 10px 26px rgba(255, 42, 42, 0.18);
+}
+
+.linkAccent:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px $accent-soft;
+}
+
 ::selection {
   background: $accent-soft;
 }
