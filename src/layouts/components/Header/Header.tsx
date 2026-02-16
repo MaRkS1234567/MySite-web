@@ -195,34 +195,36 @@ export function Header() {
       <header className={[styles.header, isLanding ? styles.isLanding : styles.isExpanded].join(' ')}>
         <Container>
           <div className={styles.row}>
-            <div className={styles.pill}>
-              <div className={styles.segmentWrap}>
-                <NavLink
-                  to="/tutor"
-                  className={({ isActive }) =>
-                    [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
-                  }
-                >
-                  <Button variant="ghost" type="button">
-                    Tutor
-                  </Button>
-                </NavLink>
+            <div className={styles.pillsRow}>
+              <div className={styles.modePill}>
+                <div className={styles.segmentWrap}>
+                  <NavLink
+                    to="/tutor"
+                    className={({ isActive }) =>
+                      [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
+                    }
+                  >
+                    <Button variant="ghost" type="button">
+                      Tutor
+                    </Button>
+                  </NavLink>
 
-                <div className={styles.segmentDivider} />
+                  <div className={styles.segmentDivider} />
 
-                <NavLink
-                  to="/dev"
-                  className={({ isActive }) =>
-                    [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
-                  }
-                >
-                  <Button variant="ghost" type="button">
-                    Dev
-                  </Button>
-                </NavLink>
+                  <NavLink
+                    to="/dev"
+                    className={({ isActive }) =>
+                      [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
+                    }
+                  >
+                    <Button variant="ghost" type="button">
+                      Dev
+                    </Button>
+                  </NavLink>
+                </div>
               </div>
 
-              <div className={styles.pillMenu} aria-hidden={isLanding || !mode}>
+              <div className={styles.sectionsPill} aria-hidden={isLanding || !mode}>
                 {!isLanding && mode && (
                   <nav className={styles.menu} aria-label={`${mode} sections`}>
                     {menu.map((item) => (

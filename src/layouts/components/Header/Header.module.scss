@@ -20,6 +20,78 @@
   min-height: 64px;
 }
 
+/* Two separate pills on desktop: mode switch + sections menu */
+.pillsRow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.modePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+
+  padding: 4px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+
+  transition:
+    transform $dur-3 $ease-out,
+    background $dur-3 $ease-out,
+    border-color $dur-3 $ease-out,
+    box-shadow $dur-3 $ease-out;
+}
+
+.modePill:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 22px 70px rgba(0, 0, 0, 0.42),
+    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+}
+
+.sectionsPill {
+  display: inline-flex;
+  align-items: center;
+  height: 56px;
+
+  padding: 4px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+
+  transition:
+    opacity $dur-3 $ease-out,
+    transform $dur-3 $ease-out,
+    background $dur-3 $ease-out,
+    border-color $dur-3 $ease-out,
+    box-shadow $dur-3 $ease-out;
+}
+
+.sectionsPill:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 22px 70px rgba(0, 0, 0, 0.42),
+    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+}
+
 /*
   One glass pill that expands:
   - On landing: centered, only Tutor/Dev
@@ -111,6 +183,22 @@
   justify-content: center;
 }
 
+.isLanding .sectionsPill {
+  display: none;
+}
+
+.isExpanded .sectionsPill {
+  display: inline-flex;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Initial (before expanded): keep it ready for transition when not landing */
+.sectionsPill {
+  opacity: 0;
+  transform: translateX(-6px);
+}
+
 .isExpanded .pill {
   padding: 8px 10px; /* slightly wider feel */
 }
@@ -138,8 +226,8 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding-left: 6px;
-  padding-right: 6px; /* breathing room before pill edge */
+  padding-left: 2px;
+  padding-right: 2px; /* breathing room before pill edge */
 }
 
 .menuLink {
@@ -148,8 +236,13 @@
   font-weight: $fw-medium;
   color: $text-muted;
 
-  padding: 8px 10px;
-  border-radius: $radius-md;
+  height: 40px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
 
   transition:
     color $dur-3 $ease-out,
