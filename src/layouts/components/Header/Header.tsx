@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 import { Button } from '../../../shared/ui/Button'
 import { Container } from '../../../shared/ui/Container'
@@ -31,6 +31,7 @@ const devMenu: MenuItem[] = [
 
 export function Header() {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
 
   const isLanding = pathname === '/'
 
@@ -41,6 +42,18 @@ export function Header() {
       : null
 
   const menu = mode === 'tutor' ? tutorMenu : mode === 'dev' ? devMenu : []
+
+  const hrefToId = useCallback((href: string) => {
+    if (!href.startsWith('#')) return ''
+    return href.slice(1)
+  }, [])
+
+  const scrollToId = useCallback((id: string) => {
+    const el = document.getElementById(id)
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    window.history.replaceState(null, '', `#${id}`)
+  }, [])
 
   const [activeMenuState, setActiveMenuState] = useState<{ mode: Mode; label: string }>({
     mode: null,
@@ -98,75 +111,188 @@ export function Header() {
     return () => {
       observer.disconnect()
     }
-  }, [idToLabel, isLanding, mode, setActiveMenuState])
+  }, [idToLabel, isLanding, mode])
+
+  const renderIcon = (label: string) => {
+    // Simple inline SVGs (no assets). Keep them minimal and consistent.
+    const common = {
+      width: 22,
+      height: 22,
+      viewBox: '0 0 24 24',
+      fill: 'none',
+      xmlns: 'http://www.w3.org/2000/svg',
+    }
+
+    switch (label) {
+      case 'MODE_TUTOR':
+        return (
+          <svg {...common}>
+            <path d="M12 4l9 4-9 4-9-4 9-4z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+            <path d="M6 10v5c0 1.6 2.7 3 6 3s6-1.4 6-3v-5" stroke="currentColor" strokeWidth="1.6" />
+          </svg>
+        )
+      case 'MODE_DEV':
+        return (
+          <svg {...common}>
+            <path d="M9 8l-3 4 3 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M15 8l3 4-3 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M13 7l-2 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+        )
+      case 'Directions':
+      case 'About':
+        return (
+          <svg {...common}>
+            <path d="M12 3l8 6v11H4V9l8-6z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+          </svg>
+        )
+      case 'Pricing':
+      case 'Services':
+        return (
+          <svg {...common}>
+            <path d="M7 7h10v10H7V7z" stroke="currentColor" strokeWidth="1.6" />
+            <path d="M9.5 11h5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            <path d="M9.5 14h3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+        )
+      case 'Reviews':
+      case 'Cases':
+        return (
+          <svg {...common}>
+            <path d="M7 4h10a2 2 0 012 2v12l-3-2H7a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+          </svg>
+        )
+      case 'FAQ':
+      case 'Process':
+        return (
+          <svg {...common}>
+            <path d="M12 22a10 10 0 100-20 10 10 0 000 20z" stroke="currentColor" strokeWidth="1.6" />
+            <path d="M9.8 9.2a2.3 2.3 0 114 1.7c-.5.6-1.3.9-1.3 2.1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            <path d="M12 17h.01" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+          </svg>
+        )
+      case 'Apply':
+      case 'Contacts':
+        return (
+          <svg {...common}>
+            <path d="M20 6l-8.5 7L3 6" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+            <path d="M4 6h16v12H4V6z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+          </svg>
+        )
+      default:
+        return (
+          <svg {...common}>
+            <path d="M6 12h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            <path d="M12 6v12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+        )
+    }
+  }
 
   return (
-    <header className={[styles.header, isLanding ? styles.isLanding : styles.isExpanded].join(' ')}>
-      <Container>
-        <div className={styles.row}>
-          <div className={styles.pill}>
-            <div className={styles.segmentWrap}>
-              <NavLink
-                to="/tutor"
-                className={({ isActive }) =>
-                  [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
-                }
-              >
-                <Button variant="ghost" type="button">
-                  Tutor
-                </Button>
-              </NavLink>
+    <>
+      {/* Desktop / tablet header (existing pill) */}
+      <header className={[styles.header, isLanding ? styles.isLanding : styles.isExpanded].join(' ')}>
+        <Container>
+          <div className={styles.row}>
+            <div className={styles.pill}>
+              <div className={styles.segmentWrap}>
+                <NavLink
+                  to="/tutor"
+                  className={({ isActive }) =>
+                    [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
+                  }
+                >
+                  <Button variant="ghost" type="button">
+                    Tutor
+                  </Button>
+                </NavLink>
 
-              <div className={styles.segmentDivider} />
+                <div className={styles.segmentDivider} />
 
-              <NavLink
-                to="/dev"
-                className={({ isActive }) =>
-                  [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
-                }
-              >
-                <Button variant="ghost" type="button">
-                  Dev
-                </Button>
-              </NavLink>
-            </div>
+                <NavLink
+                  to="/dev"
+                  className={({ isActive }) =>
+                    [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
+                  }
+                >
+                  <Button variant="ghost" type="button">
+                    Dev
+                  </Button>
+                </NavLink>
+              </div>
 
-            <div className={styles.pillMenu} aria-hidden={isLanding || !mode}>
-              {!isLanding && mode && (
-                <nav className={styles.menu} aria-label={`${mode} sections`}>
-                  {menu.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className={[
-                        styles.menuLink,
-                        activeMenu === item.label ? styles.menuLinkActive : '',
-                      ]
-                        .filter(Boolean)
-                        .join(' ')}
-                      onClick={(e) => {
-                        e.preventDefault()
-                        setActiveMenuState({ mode, label: item.label })
+              <div className={styles.pillMenu} aria-hidden={isLanding || !mode}>
+                {!isLanding && mode && (
+                  <nav className={styles.menu} aria-label={`${mode} sections`}>
+                    {menu.map((item) => (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        className={[styles.menuLink, activeMenu === item.label ? styles.menuLinkActive : '']
+                          .filter(Boolean)
+                          .join(' ')}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          setActiveMenuState({ mode, label: item.label })
 
-                        if (item.href.startsWith('#')) {
-                          const id = item.href.slice(1)
-                          const el = document.getElementById(id)
-                          if (el) {
-                            el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                            window.history.replaceState(null, '', item.href)
-                          }
-                        }
-                      }}
-                    >
-                      {item.label}
-                    </a>
-                  ))}
-                </nav>
-              )}
+                          const id = hrefToId(item.href)
+                          if (id) scrollToId(id)
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </nav>
+                )}
+              </div>
             </div>
           </div>
+        </Container>
+      </header>
+
+      {/* Mobile bottom navigation */}
+      {!isLanding && mode && (
+        <div className={styles.mobileBar}>
+          <nav className={styles.mobileNav} aria-label={`${mode} mobile navigation`}>
+            {menu.map((item) => {
+              const isActive = activeMenu === item.label
+              const id = hrefToId(item.href)
+
+              return (
+                <button
+                  key={item.label}
+                  type="button"
+                  aria-label={item.label}
+                  className={[styles.mobileItem, isActive ? styles.mobileItemActive : ''].filter(Boolean).join(' ')}
+                  onClick={() => {
+                    setActiveMenuState({ mode, label: item.label })
+                    if (id) scrollToId(id)
+                  }}
+                >
+                  <span className={styles.mobileIcon}>{renderIcon(item.label)}</span>
+                </button>
+              )
+            })}
+          </nav>
+
+          {/* Separate circular mode switch (Telegram/Apple-like) */}
+          <div className={styles.mobileModeWrap}>
+            <button
+              type="button"
+              className={styles.mobileModeButton}
+              aria-label={mode === 'tutor' ? 'Switch to Dev' : 'Switch to Tutor'}
+              onClick={() => {
+                navigate(mode === 'tutor' ? '/dev' : '/tutor')
+              }}
+            >
+              <span className={styles.mobileModeIcon}>
+                {mode === 'tutor' ? renderIcon('MODE_DEV') : renderIcon('MODE_TUTOR')}
+              </span>
+            </button>
+          </div>
         </div>
-      </Container>
-    </header>
+      )}
+    </>
   )
 }

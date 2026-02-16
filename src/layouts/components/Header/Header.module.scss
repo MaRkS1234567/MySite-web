@@ -179,11 +179,228 @@
   transform: translateX(0);
 }
 
+/* Mobile bottom navigation (hidden on desktop) */
+.mobileBar {
+  display: none;
+}
+
+.mobileNav {
+  display: none;
+}
+
+.mobileItem {
+  display: none;
+}
+
+.mobileIcon {
+  display: none;
+}
+
+.mobileLabel {
+  display: none;
+}
+
+.mobileModeWrap {
+  display: none;
+}
+
+.mobileModeButton {
+  display: none;
+}
+
+.mobileModeIcon {
+  display: none;
+}
+
+.mobileModePopover {
+  display: none;
+}
+
+.mobileModeLink {
+  display: none;
+}
+
+.mobileModeLinkActive {
+  display: none;
+}
 /* Responsive: on small screens keep only the segmented control */
+
 @media (max-width: ($bp-md - 1px)) {
-  .isExpanded .pillMenu {
-    max-width: 0;
-    opacity: 0;
-    transform: translateX(-6px);
+  /* Hide the top header pill on mobile */
+  .header {
+    display: none;
+  }
+
+  /* Bottom bar wrapper */
+  .mobileBar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $z-header;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 8px;
+
+    padding: 10px 14px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+
+    pointer-events: none; /* allow only children to receive clicks */
+  }
+
+  .mobileNav {
+    pointer-events: auto;
+
+    display: inline-flex;
+    height: 64px;
+    align-items: center;
+    gap: 6px;
+
+    width: min(420px, calc(100vw - 110px));
+    max-width: calc(100vw - 110px);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include m.glass-panel($radius: 999px, $padding: 4px);
+  }
+
+  .mobileItem {
+    pointer-events: auto;
+
+    appearance: none;
+    border: 0;
+    background: transparent;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 999px;
+
+    color: $text-muted;
+
+    transition:
+      background $dur-3 $ease-out,
+      transform $dur-3 $ease-out,
+      color $dur-3 $ease-out;
+  }
+
+  .mobileIcon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+  }
+
+  .mobileLabel {
+    display: none;
+  }
+
+  .mobileItemActive {
+    color: $text;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .mobileItem:active {
+    transform: scale(0.98);
+  }
+
+  /* Separate circular mode switch */
+  .mobileModeWrap {
+    display: inline-flex;
+    align-items: center;
+
+    position: relative;
+    margin-left: 0;
+    flex: 0 0 auto;
+    pointer-events: auto;
+  }
+
+  .mobileModeButton {
+    pointer-events: auto;
+
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+
+    position: relative;
+    overflow: hidden;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(18, 18, 20, 0.55);
+    backdrop-filter: blur(16px);
+
+    box-shadow:
+      0 18px 60px rgba(0, 0, 0, 0.55),
+      0 1px 0 rgba(255, 255, 255, 0.06) inset;
+
+    transition:
+      transform $dur-3 $ease-out,
+      background $dur-3 $ease-out,
+      border-color $dur-3 $ease-out,
+      box-shadow $dur-3 $ease-out;
+  }
+
+  .mobileModeButton::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 999px;
+
+    background:
+      radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.00) 60%),
+      radial-gradient(circle at 70% 70%, rgba(255, 42, 42, 0.12), rgba(255, 42, 42, 0.00) 62%);
+
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .mobileModeButton:active {
+    transform: scale(0.98);
+  }
+
+  .mobileModeButton:focus-visible {
+    outline: none;
+    box-shadow:
+      0 18px 60px rgba(0, 0, 0, 0.55),
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 0 0 3px $accent-soft;
+  }
+
+  .mobileModeIcon {
+    position: relative;
+    z-index: 1;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 28px;
+    height: 28px;
+
+    /* Slightly “neon” tint like the reference */
+    color: rgba(120, 190, 255, 0.95);
+  }
+
+  .mobileModeIcon svg {
+    width: 28px;
+    height: 28px;
   }
 }
