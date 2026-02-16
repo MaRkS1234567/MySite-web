@@ -116,8 +116,117 @@
   color: $text;
 }
 
+
 .text {
   margin-top: $space-3;
+  color: $text-muted;
+}
+
+/* Apply form */
+.form {
+  margin-top: $space-5;
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $space-4;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.label {
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  font-weight: $fw-medium;
+  color: $text;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border-radius: $radius-md;
+  padding: 12px 12px;
+  min-height: 44px;
+  line-height: $lh-normal;
+
+  color: $text;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  transition:
+    border-color $dur-3 $ease-out,
+    background $dur-3 $ease-out,
+    transform $dur-3 $ease-out;
+}
+
+/* Make <select> look like other inputs */
+select.input {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding-right: 44px;
+
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255, 255, 255, 0.75) 50%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.75) 50%, transparent 50%);
+  background-position:
+    right 18px center,
+    right 12px center;
+  background-size:
+    7px 7px,
+    7px 7px;
+  background-repeat: no-repeat;
+}
+
+select.input::-ms-expand {
+  display: none;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: $text-muted;
+}
+
+.input:hover,
+.textarea:hover {
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+}
+
+.input:focus-visible,
+.textarea:focus-visible {
+  @include m.focus-ring;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.formActions {
+  margin-top: $space-4;
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+}
+
+.hint {
+  font-size: $fs-14;
+  line-height: $lh-normal;
   color: $text-muted;
 }
 
@@ -138,5 +247,9 @@
 
   .heroVisual {
     height: 200px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
   }
 }
