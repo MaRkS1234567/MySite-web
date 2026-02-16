@@ -1,5 +1,3 @@
-
-
 /*
   Design tokens
   Dark (graphite) theme as default
@@ -68,8 +66,17 @@ $text: rgba(255, 255, 255, 0.92);
 $text-muted: rgba(255, 255, 255, 0.68);
 $text-faint: rgba(255, 255, 255, 0.48);
 
-$accent: #ff2a2a; // brand red
-$accent-soft: rgba(255, 42, 42, 0.15);
+/* Accent (dev / tutor) */
+$accent-dev: #ff2a2a; // brand red
+$accent-soft-dev: rgba(255, 42, 42, 0.15);
+
+/* Tutor accent: the same голубой tone we use in mobile mode icon */
+$accent-tutor: #78beff;
+$accent-soft-tutor: rgba(120, 190, 255, 0.18);
+
+/* Default accent (dev) */
+$accent: $accent-dev;
+$accent-soft: $accent-soft-dev;
 
 $success: #22c55e;
 $warning: #f59e0b;

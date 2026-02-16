@@ -35,11 +35,7 @@ export function Header() {
 
   const isLanding = pathname === '/'
 
-  const mode: Mode = pathname.startsWith('/tutor')
-    ? 'tutor'
-    : pathname.startsWith('/dev')
-      ? 'dev'
-      : null
+  const mode: Mode = pathname.startsWith('/tutor') ? 'tutor' : pathname.startsWith('/dev') ? 'dev' : null
 
   const menu = mode === 'tutor' ? tutorMenu : mode === 'dev' ? devMenu : []
 
@@ -84,7 +80,6 @@ export function Header() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Choose the most visible intersecting section
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0))
@@ -99,7 +94,6 @@ export function Header() {
         setActiveMenuState({ mode, label })
       },
       {
-        // Trigger when the section is roughly in the upper half of the viewport
         root: null,
         threshold: [0.15, 0.25, 0.4, 0.6],
         rootMargin: '-20% 0px -55% 0px',
@@ -114,7 +108,6 @@ export function Header() {
   }, [idToLabel, isLanding, mode])
 
   const renderIcon = (label: string) => {
-    // Simple inline SVGs (no assets). Keep them minimal and consistent.
     const common = {
       width: 22,
       height: 22,
@@ -127,15 +120,32 @@ export function Header() {
       case 'MODE_TUTOR':
         return (
           <svg {...common}>
-            <path d="M12 4l9 4-9 4-9-4 9-4z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+            <path
+              d="M12 4l9 4-9 4-9-4 9-4z"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinejoin="round"
+            />
             <path d="M6 10v5c0 1.6 2.7 3 6 3s6-1.4 6-3v-5" stroke="currentColor" strokeWidth="1.6" />
           </svg>
         )
       case 'MODE_DEV':
         return (
           <svg {...common}>
-            <path d="M9 8l-3 4 3 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M15 8l3 4-3 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+              d="M9 8l-3 4 3 4"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M15 8l3 4-3 4"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
             <path d="M13 7l-2 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
           </svg>
         )
@@ -159,7 +169,12 @@ export function Header() {
       case 'Cases':
         return (
           <svg {...common}>
-            <path d="M7 4h10a2 2 0 012 2v12l-3-2H7a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+            <path
+              d="M7 4h10a2 2 0 012 2v12l-3-2H7a2 2 0 01-2-2V6a2 2 0 012-2z"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinejoin="round"
+            />
           </svg>
         )
       case 'FAQ':
@@ -167,7 +182,12 @@ export function Header() {
         return (
           <svg {...common}>
             <path d="M12 22a10 10 0 100-20 10 10 0 000 20z" stroke="currentColor" strokeWidth="1.6" />
-            <path d="M9.8 9.2a2.3 2.3 0 114 1.7c-.5.6-1.3.9-1.3 2.1" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            <path
+              d="M9.8 9.2a2.3 2.3 0 114 1.7c-.5.6-1.3.9-1.3 2.1"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
             <path d="M12 17h.01" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
           </svg>
         )
@@ -191,7 +211,6 @@ export function Header() {
 
   return (
     <>
-      {/* Desktop / tablet header (existing pill) */}
       <header className={[styles.header, isLanding ? styles.isLanding : styles.isExpanded].join(' ')}>
         <Container>
           <div className={styles.row}>
@@ -200,9 +219,7 @@ export function Header() {
                 <div className={styles.segmentWrap}>
                   <NavLink
                     to="/tutor"
-                    className={({ isActive }) =>
-                      [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
-                    }
+                    className={({ isActive }) => [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')}
                   >
                     <Button variant="ghost" type="button">
                       Tutor
@@ -213,9 +230,7 @@ export function Header() {
 
                   <NavLink
                     to="/dev"
-                    className={({ isActive }) =>
-                      [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
-                    }
+                    className={({ isActive }) => [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')}
                   >
                     <Button variant="ghost" type="button">
                       Dev
@@ -253,7 +268,6 @@ export function Header() {
         </Container>
       </header>
 
-      {/* Mobile bottom navigation */}
       {!isLanding && mode && (
         <div className={styles.mobileBar}>
           <nav className={styles.mobileNav} aria-label={`${mode} mobile navigation`}>
@@ -278,7 +292,6 @@ export function Header() {
             })}
           </nav>
 
-          {/* Separate circular mode switch (Telegram/Apple-like) */}
           <div className={styles.mobileModeWrap}>
             <button
               type="button"
@@ -288,9 +301,7 @@ export function Header() {
                 navigate(mode === 'tutor' ? '/dev' : '/tutor')
               }}
             >
-              <span className={styles.mobileModeIcon}>
-                {mode === 'tutor' ? renderIcon('MODE_DEV') : renderIcon('MODE_TUTOR')}
-              </span>
+              <span className={styles.mobileModeIcon}>{mode === 'tutor' ? renderIcon('MODE_DEV') : renderIcon('MODE_TUTOR')}</span>
             </button>
           </div>
         </div>

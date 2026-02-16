@@ -1,6 +1,19 @@
-
-
 @use './variables' as *;
+
+/* Theme tokens (runtime switch via html[data-mode]) */
+:root {
+  --accent: #{$accent-dev};
+  --accent-soft: #{$accent-soft-dev};
+  --accent-glow: rgba(255, 42, 42, 0.18);
+  --accent-bg-glow: rgba(255, 42, 42, 0.12);
+}
+
+html[data-mode='tutor'] {
+  --accent: #{$accent-tutor};
+  --accent-soft: #{$accent-soft-tutor};
+  --accent-glow: rgba(120, 190, 255, 0.22);
+  --accent-bg-glow: rgba(120, 190, 255, 0.12);
+}
 
 /*
   Global styles
@@ -60,7 +73,7 @@ a {
 }
 
 a:hover {
-  color: $accent;
+  color: var(--accent);
 }
 
 /* Accent link (e.g., @marksharapov) */
@@ -81,19 +94,19 @@ a:hover {
 }
 
 .linkAccent:hover {
-  color: $accent;
-  background: $accent-soft;
+  color: var(--accent);
+  background: var(--accent-soft);
   transform: translateY(-1px) scale(1.02);
-  box-shadow: 0 10px 26px rgba(255, 42, 42, 0.18);
+  box-shadow: 0 10px 26px var(--accent-glow);
 }
 
 .linkAccent:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px $accent-soft;
+  box-shadow: 0 0 0 3px var(--accent-soft);
 }
 
 ::selection {
-  background: $accent-soft;
+  background: var(--accent-soft);
 }
 
 /* Basic headings */
@@ -124,7 +137,7 @@ body::before {
   pointer-events: none;
   z-index: -1;
   background:
-    radial-gradient(800px 500px at 12% 18%, rgba(255, 42, 42, 0.12), transparent 60%),
+    radial-gradient(800px 500px at 12% 18%, var(--accent-bg-glow), transparent 60%),
     radial-gradient(900px 600px at 88% 22%, rgba(255, 255, 255, 0.06), transparent 65%);
   filter: blur(0px);
 }
