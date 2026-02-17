@@ -1,11 +1,86 @@
-
-
 .root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: clip;
 }
 
 .main {
   flex: 1;
 }
+
+/* ===== Desktop-only background ornaments (do NOT affect mobile) ===== */
+@media (min-width: 981px) {
+  /* create stacking context for background layers */
+  .root {
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* soft corner glows (very subtle, mode-aware via --accent-*) */
+  .root::before {
+    content: '';
+    position: fixed;
+    inset: -20vh -20vw;
+    pointer-events: none;
+    z-index: -1;
+
+    background:
+      radial-gradient(900px 620px at 12% 22%, var(--accent-bg-glow), transparent 66%),
+      radial-gradient(860px 600px at 90% 18%, var(--accent-bg-glow), transparent 70%);
+
+    opacity: 0.75;
+  }
+
+  /* pixel/grid ornaments in top-right + bottom-left, fading toward center */
+  .root::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+
+    background:
+      /* top-right pixel grid */
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.085) 0 1px, transparent 1px 12px),
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.085) 0 1px, transparent 1px 12px),
+
+      /* bottom-left pixel grid */
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.10) 0 1px, transparent 1px 14px),
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.10) 0 1px, transparent 1px 14px);
+
+    background-size:
+      520px 520px,
+      520px 520px,
+      620px 620px,
+      620px 620px;
+
+    background-position:
+      right 0 top 0,
+      right 0 top 0,
+      left 0 bottom 0,
+      left 0 bottom 0;
+
+    background-repeat: no-repeat;
+
+    /* fade masks (Safari + standard) */
+    -webkit-mask-image:
+      radial-gradient(520px 520px at 92% 10%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 72%),
+      radial-gradient(620px 620px at 8% 92%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 74%);
+    mask-image:
+      radial-gradient(520px 520px at 92% 10%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 72%),
+      radial-gradient(620px 620px at 8% 92%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 74%);
+
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+
+    opacity: 0.62;
+    filter: blur(0.5px);
+    transform: translateZ(0);
+    mix-blend-mode: soft-light;
+  }
+}
+/* ===== End desktop-only background ornaments ===== */

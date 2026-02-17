@@ -36,6 +36,7 @@ html {
   -webkit-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -45,10 +46,14 @@ body {
   color: $text;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+  position: relative;
 }
 
 #root {
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
 }
 
 img,
@@ -126,20 +131,79 @@ p {
   color: $text-muted;
 }
 
-/*
-  Subtle background graphics layer:
-  two soft radial glows to avoid empty-feeling space.
-*/
 body::before {
   content: '';
   position: fixed;
   inset: -20vh -20vw;
   pointer-events: none;
-  z-index: -1;
+  z-index: 0;
+
+  /* Soft depth glows (mode-aware via --accent-*) */
   background:
-    radial-gradient(800px 500px at 12% 18%, var(--accent-bg-glow), transparent 60%),
-    radial-gradient(900px 600px at 88% 22%, rgba(255, 255, 255, 0.06), transparent 65%);
-  filter: blur(0px);
+    radial-gradient(860px 540px at 12% 18%, var(--accent-bg-glow), transparent 62%),
+    radial-gradient(980px 680px at 88% 22%, rgba(255, 255, 255, 0.06), transparent 68%),
+    radial-gradient(900px 650px at 18% 88%, rgba(255, 255, 255, 0.045), transparent 70%),
+    radial-gradient(720px 520px at 92% 86%, var(--accent-bg-glow), transparent 66%);
+}
+
+/*
+  Geometric detail layer:
+  - ultra-subtle grid
+  - faint diagonal lines
+  - soft rings
+  - tiny “film” noise via repeating-radial gradients
+  Kept very low contrast to stay Apple-minimal.
+*/
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    /* soft rings */
+    radial-gradient(circle at 72% 44%,
+      transparent 0 56%,
+      rgba(255, 255, 255, 0.055) 57%,
+      transparent 58% 100%),
+    radial-gradient(circle at 22% 72%,
+      transparent 0 62%,
+      rgba(255, 255, 255, 0.045) 63%,
+      transparent 64% 100%),
+
+    /* diagonal micro-lines */
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.035) 0,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px,
+      transparent 22px),
+
+    /* grid (very subtle) */
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+
+    /* accent-tinted haze to tie with mode */
+    radial-gradient(720px 520px at 50% 12%, var(--accent-bg-glow), transparent 70%),
+
+    /* tiny film noise */
+    repeating-radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 3px),
+    repeating-radial-gradient(circle at 78% 64%, rgba(255, 255, 255, 0.010) 0 1px, transparent 1px 4px);
+
+  background-size:
+    auto,
+    auto,
+    260px 260px,
+    140px 140px,
+    140px 140px,
+    auto,
+    340px 340px,
+    420px 420px;
+
+  opacity: 0.55;
+  mix-blend-mode: overlay;
+  filter: blur(0.15px);
+  transform: translateZ(0);
 }
 
 /* Reduce motion preference */
@@ -154,3 +218,4 @@ body::before {
     animation-iteration-count: 1 !important;
   }
 }
+
