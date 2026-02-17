@@ -1,11 +1,9 @@
-
-
 import { Container } from '../../../../shared/ui/Container'
 
 import styles from './DevHero.module.scss'
 
 // Reuse the same cutout silhouette image
-import markSilhouette from '../../../../assets/images/mark-silhouette.png'
+import markSilhouette from '../../../../assets/images/markProg.png'
 
 export function DevHero() {
   return (
@@ -35,7 +33,9 @@ export function DevHero() {
 
           <div className={styles.right} aria-hidden>
             <div className={styles.photoWrap}>
-              <img className={styles.photo} src={markSilhouette} alt="" />
+              <div className={styles.photoMask}>
+                <img className={styles.photo} src={markSilhouette} alt="" />
+              </div>
             </div>
           </div>
         </div>

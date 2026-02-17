@@ -132,14 +132,15 @@
   position: relative;
   display: flex;
   justify-content: flex-end;
-  align-items: flex-start;
-  padding-top: 8px;
+  align-items: center;
+  padding-top: 0;
+  overflow: visible;
 }
 
 /* Wrapper for the cutout silhouette */
 .photoWrap {
   position: relative;
-  width: min(680px, 58vw);
+  width: min(980px, 70vw);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -150,13 +151,46 @@
   box-shadow: none;
   border-radius: 0;
   overflow: visible;
-  transform: translate(80px, -56px);
+
+  /* keep the same visual placement, but avoid over-shifting to the right */
+  transform: translate(-64px, -92px) translateZ(0);
+  transform-origin: center;
+  will-change: transform;
+  isolation: isolate;
+  backface-visibility: hidden;
+}
+
+/* Soft glow layer (desktop) to avoid any "square" artifacts */
+.photoWrap::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 118%;
+  height: 118%;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: radial-gradient(circle at 50% 50%, var(--accent-bg-glow), transparent 62%);
+  filter: blur(28px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure the photo never shifts on hover */
+.photoWrap:hover {
+  transform: translate(-64px, -92px) translateZ(0);
+}
+
+.photoWrap:hover::before {
+  opacity: 0.7;
+  filter: blur(32px);
 }
 
 .photo {
   position: relative;
   z-index: 1;
-  width: min(640px, 54vw);
+  width: min(940px, 66vw);
   height: auto;
   display: block;
 
@@ -179,19 +213,22 @@
   mask-size: 100% 100%;
 
   transition: filter $dur-3 $ease-out;
+  will-change: filter;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 
   /* Glow around the cutout silhouette */
   filter:
-    drop-shadow(0 0 10px rgba(255, 255, 255, 0.12))
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.08))
     drop-shadow(0 0 34px var(--accent-bg-glow))
-    drop-shadow(0 0 64px var(--accent-glow));
+    drop-shadow(0 0 70px var(--accent-glow));
 }
 
 .photoWrap:hover .photo {
   filter:
-    drop-shadow(0 0 12px rgba(255, 255, 255, 0.16))
-    drop-shadow(0 0 46px var(--accent-bg-glow))
-    drop-shadow(0 0 92px var(--accent-glow));
+    drop-shadow(0 0 14px rgba(255, 255, 255, 0.16))
+    drop-shadow(0 0 62px var(--accent-bg-glow))
+    drop-shadow(0 0 140px var(--accent-glow));
 }
 
 /* Responsive */
@@ -241,8 +278,24 @@
 @media (max-width: 520px) {
   .hero {
     min-height: 100svh;
-    margin-top: -60px;
-    padding: 16px 0;
+    /* lift the whole hero content a bit on mobile (without changing inner gap) */
+    margin-top: -103px;
+    padding: 6px 0;
+  }
+
+  .right {
+    justify-content: center;
+  }
+
+  .inner {
+    gap: 14px;
+  }
+
+  .left {
+    /* Grid column is sized by the 160vw photo — pin text to viewport width
+       and align to the column's start so margin:auto doesn't push it right */
+    width: calc(100vw - 2 * #{$container-pad-x});
+    margin-left: 0;
   }
 
   .name {
@@ -266,41 +319,86 @@
     padding: 0 16px;
   }
 
-  .photo {
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-    width: min(980px, 168vw);
-    margin: 0 auto;
-    display: block;
+  .photoWrap {
+    width: 100%;
+    justify-content: center;
+    /* move photo up a bit on mobile */
+    transform: translate(0, -24px) translateZ(0);
   }
 
-  /* Mobile glow: use a round soft glow layer to avoid square artifacts */
+  .photoWrap:hover {
+    transform: translate(0, -24px) translateZ(0);
+  }
+
+  /* Mobile glow: box-shadow on a 1px point avoids the rectangular blur
+     artifact that filter:blur() on a pseudo-element creates on iOS/Safari */
   .photoWrap::before {
     content: '';
     position: absolute;
     left: 50%;
     top: 46%;
-    width: min(820px, 150vw);
-    height: min(820px, 150vw);
+    width: 1px;
+    height: 1px;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    background: radial-gradient(circle at 50% 50%, var(--accent-bg-glow), transparent 60%);
-    filter: blur(22px);
-    opacity: 0.9;
+    background: transparent;
+    box-shadow: 0 0 min(220px, 44vw) min(160px, 32vw) var(--accent-bg-glow);
+    opacity: 0.85;
     pointer-events: none;
     z-index: 0;
   }
 
   .photo {
-    filter:
-      drop-shadow(0 0 8px rgba(255, 255, 255, 0.10))
-      drop-shadow(0 0 22px var(--accent-bg-glow))
-      drop-shadow(0 0 44px var(--accent-glow));
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    width: 160vw;
+    max-width: none;
+    margin: 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-58%) translateZ(0);
+    display: block;
+    /* drop-shadow on a masked element causes bounding-box rectangles on iOS —
+       ambient glow comes from .photoWrap::before box-shadow instead */
+    filter: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .photo {
     transition: none;
+  }
+}
+
+/* Touch devices: no hover/tap effects and no movement */
+@media (hover: none) and (pointer: coarse) {
+  .photoWrap {
+    transform: translate(0, -24px) translateZ(0);
+  }
+
+
+  .photoWrap:hover {
+    transform: translate(0, -24px) translateZ(0);
+  }
+
+  .photoWrap:hover::before {
+    opacity: 0.72;
+    filter: blur(26px);
+  }
+
+  .photoWrap:hover .photo {
+    /* keep the same as base (no stronger glow on touch) */
+    filter:
+      drop-shadow(0 0 10px rgba(255, 255, 255, 0.10))
+      drop-shadow(0 0 28px var(--accent-bg-glow))
+      drop-shadow(0 0 58px var(--accent-glow));
+  }
+
+  .photo {
+    transition: none;
+    /* On touch devices wider than 520px the photo needs an explicit offset so
+       the silhouette (which sits in the right part of the wide image) stays
+       centred on-screen. On < 520px this is overridden by the 520px block. */
+    transform: translateX(-73%) translateZ(0);
   }
 }

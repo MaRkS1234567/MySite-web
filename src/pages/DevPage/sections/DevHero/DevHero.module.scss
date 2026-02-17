@@ -1,6 +1,8 @@
 @use '../../../../shared/styles/variables' as *;
 @use '../../../../shared/styles/mixins' as m;
 
+
+
 .hero {
   /* Fill the whole viewport so next sections are not visible */
   min-height: 100svh;
@@ -140,7 +142,7 @@
 /* Wrapper for the cutout silhouette */
 .photoWrap {
   position: relative;
-  width: min(680px, 58vw);
+  width: min(980px, 70vw);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -152,31 +154,45 @@
   border-radius: 0;
   overflow: visible;
 
-  transform: translate(65px, -49px);
+  /* keep the same visual placement, but avoid over-shifting to the right */
+  transform: translate(-64px, -92px) translateZ(0);
+  transform-origin: center;
+  will-change: transform;
+  isolation: isolate;
+  backface-visibility: hidden;
+}
 
-  /* Circular glow behind the photo (prevents "square" glow on hover) */
-  &::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 46%;
-    width: min(560px, 46vw);
-    height: min(560px, 46vw);
-    transform: translate(-50%, -50%);
-    border-radius: 50%;
-    background: radial-gradient(circle at 50% 50%, var(--accent-bg-glow), transparent 60%);
-    filter: blur(22px);
-    opacity: 0.65;
-    pointer-events: none;
-    z-index: 0;
-    transition: opacity $dur-3 $ease-out;
-  }
+/* Soft glow layer (desktop) to avoid any "square" artifacts */
+.photoWrap::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 118%;
+  height: 118%;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: radial-gradient(circle at 50% 50%, var(--accent-bg-glow), transparent 62%);
+  filter: blur(28px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure the photo never shifts on hover */
+.photoWrap:hover {
+  transform: translate(-64px, -92px) translateZ(0);
+}
+
+.photoWrap:hover::before {
+  opacity: 0.7;
+  filter: blur(32px);
 }
 
 .photo {
   position: relative;
   z-index: 1;
-  width: min(640px, 54vw);
+  width: min(940px, 66vw);
   height: auto;
   display: block;
 
@@ -198,24 +214,23 @@
   -webkit-mask-size: 100% 100%;
   mask-size: 100% 100%;
 
-  /* Base glow around the cutout silhouette */
-  filter:
-    drop-shadow(0 0 10px rgba(255, 255, 255, 0.12))
-    drop-shadow(0 0 34px var(--accent-bg-glow))
-    drop-shadow(0 0 64px var(--accent-glow));
-
   transition: filter $dur-3 $ease-out;
+  will-change: filter;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+
+  /* Glow around the cutout silhouette */
+  filter:
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.08))
+    drop-shadow(0 0 34px var(--accent-bg-glow))
+    drop-shadow(0 0 70px var(--accent-glow));
 }
 
 .photoWrap:hover .photo {
   filter:
-    drop-shadow(0 0 14px rgba(255, 255, 255, 0.20))
-    drop-shadow(0 0 52px var(--accent-bg-glow))
-    drop-shadow(0 0 96px var(--accent-glow));
-}
-
-.photoWrap:hover::before {
-  opacity: 0.95;
+    drop-shadow(0 0 14px rgba(255, 255, 255, 0.16))
+    drop-shadow(0 0 62px var(--accent-bg-glow))
+    drop-shadow(0 0 140px var(--accent-glow));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -307,28 +322,26 @@
     position: absolute;
     left: 50%;
     top: 46%;
-    width: min(820px, 150vw);
-    height: min(820px, 150vw);
+    width: min(760px, 140vw);
+    height: min(760px, 140vw);
     transform: translate(-50%, -50%);
     border-radius: 50%;
     background: radial-gradient(circle at 50% 50%, var(--accent-bg-glow), transparent 60%);
-    filter: blur(22px);
-    opacity: 0.9;
+    filter: blur(24px);
+    opacity: 0.7;
     pointer-events: none;
     z-index: 0;
-    transition: opacity $dur-3 $ease-out;
   }
 
   .photo {
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
-    width: min(980px, 168vw);
+    width: min(1180px, 198vw);
     margin: 0 auto;
     display: block;
-
     filter:
-      drop-shadow(0 0 8px rgba(255, 255, 255, 0.10))
-      drop-shadow(0 0 22px var(--accent-bg-glow))
-      drop-shadow(0 0 44px var(--accent-glow));
+      drop-shadow(0 0 10px rgba(255, 255, 255, 0.10))
+      drop-shadow(0 0 34px var(--accent-bg-glow))
+      drop-shadow(0 0 70px var(--accent-glow));
   }
 }
