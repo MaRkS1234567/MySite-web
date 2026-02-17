@@ -103,6 +103,7 @@
 }
 
 .section {
+  min-height: 100svh;
   margin-top: $space-8;
   @include m.glass-panel;
   padding: $space-6;

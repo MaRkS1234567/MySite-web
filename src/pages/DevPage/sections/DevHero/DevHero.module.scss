@@ -1,8 +1,6 @@
 @use '../../../../shared/styles/variables' as *;
 @use '../../../../shared/styles/mixins' as m;
 
-
-
 .hero {
   /* Fill the whole viewport so next sections are not visible */
   min-height: 100svh;
@@ -21,13 +19,13 @@
 
 .inner {
   display: grid;
-  grid-template-columns: 1.45fr 0.95fr;
+  grid-template-columns: 1.35fr 0.85fr;
   align-items: center;
-  gap: 64px;
+  gap: 48px;
 }
 
 .left {
-  max-width: 920px;
+  max-width: 760px;
 }
 
 .name {
@@ -37,7 +35,6 @@
   letter-spacing: -0.03em;
   font-weight: 700;
   color: $text;
-
   white-space: nowrap;
   word-break: normal;
   overflow-wrap: normal;
@@ -137,6 +134,7 @@
   justify-content: flex-end;
   align-items: center;
   padding-top: 0;
+  overflow: visible;
 }
 
 /* Wrapper for the cutout silhouette */
@@ -233,12 +231,6 @@
     drop-shadow(0 0 140px var(--accent-glow));
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .photo {
-    transition: none;
-  }
-}
-
 /* Responsive */
 @media (max-width: 980px) {
   .hero {
@@ -286,8 +278,25 @@
 @media (max-width: 520px) {
   .hero {
     min-height: 100svh;
-    margin-top: -60px;
-    padding: 16px 0;
+    margin-top: -103px;
+    padding: 6px 0;
+    /* push the first section card below the fold on mobile */
+    margin-bottom: 100px;
+  }
+
+  .right {
+    justify-content: center;
+  }
+
+  .inner {
+    gap: 14px;
+  }
+
+  .left {
+    /* Grid column is sized by the 160vw photo — pin text to viewport width
+       and align to the column's start so margin:auto doesn't push it right */
+    width: calc(100vw - 2 * #{$container-pad-x});
+    margin-left: 0;
   }
 
   .name {
@@ -311,24 +320,31 @@
     padding: 0 16px;
   }
 
-  .left {
-    padding-left: 22px;
-    padding-right: 22px;
+  .photoWrap {
+    width: 100%;
+    justify-content: center;
+    /* move photo up a bit on mobile */
+    transform: translate(0, -24px) translateZ(0);
   }
 
-  /* Mobile glow: use a round soft glow layer to avoid square artifacts */
+  .photoWrap:hover {
+    transform: translate(0, -24px) translateZ(0);
+  }
+
+  /* Mobile glow: box-shadow on a 1px point avoids the rectangular blur
+     artifact that filter:blur() on a pseudo-element creates on iOS/Safari */
   .photoWrap::before {
     content: '';
     position: absolute;
     left: 50%;
     top: 46%;
-    width: min(760px, 140vw);
-    height: min(760px, 140vw);
+    width: 1px;
+    height: 1px;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    background: radial-gradient(circle at 50% 50%, var(--accent-bg-glow), transparent 60%);
-    filter: blur(24px);
-    opacity: 0.7;
+    background: transparent;
+    box-shadow: 0 0 min(220px, 44vw) min(160px, 32vw) var(--accent-bg-glow);
+    opacity: 0.85;
     pointer-events: none;
     z-index: 0;
   }
@@ -336,12 +352,53 @@
   .photo {
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
-    width: min(1180px, 198vw);
-    margin: 0 auto;
+    width: 160vw;
+    max-width: none;
+    margin: 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-62%) translateZ(0);
     display: block;
+    /* drop-shadow on a masked element causes bounding-box rectangles on iOS —
+       ambient glow comes from .photoWrap::before box-shadow instead */
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo {
+    transition: none;
+  }
+}
+
+/* Touch devices: no hover/tap effects and no movement */
+@media (hover: none) and (pointer: coarse) {
+  .photoWrap {
+    transform: translate(0, -24px) translateZ(0);
+  }
+
+  .photoWrap:hover {
+    transform: translate(0, -24px) translateZ(0);
+  }
+
+  .photoWrap:hover::before {
+    opacity: 0.72;
+    filter: blur(26px);
+  }
+
+  .photoWrap:hover .photo {
+    /* keep the same as base (no stronger glow on touch) */
     filter:
       drop-shadow(0 0 10px rgba(255, 255, 255, 0.10))
-      drop-shadow(0 0 34px var(--accent-bg-glow))
-      drop-shadow(0 0 70px var(--accent-glow));
+      drop-shadow(0 0 28px var(--accent-bg-glow))
+      drop-shadow(0 0 58px var(--accent-glow));
+  }
+
+  .photo {
+    transition: none;
+    /* On touch devices wider than 520px the photo needs an explicit offset so
+       the silhouette (which sits in the right part of the wide image) stays
+       centred on-screen. On < 520px this is overridden by the 520px block. */
+    transform: translateX(-77%) translateZ(0);
   }
 }

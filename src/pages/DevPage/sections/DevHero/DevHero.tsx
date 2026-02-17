@@ -33,9 +33,7 @@ export function DevHero() {
 
           <div className={styles.right} aria-hidden>
             <div className={styles.photoWrap}>
-              <div className={styles.photoMask}>
-                <img className={styles.photo} src={markSilhouette} alt="" />
-              </div>
+              <img className={styles.photo} src={markSilhouette} alt="" />
             </div>
           </div>
         </div>

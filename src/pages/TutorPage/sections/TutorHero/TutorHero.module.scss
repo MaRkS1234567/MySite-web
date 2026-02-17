@@ -281,6 +281,8 @@
     /* lift the whole hero content a bit on mobile (without changing inner gap) */
     margin-top: -103px;
     padding: 6px 0;
+    /* push the first section card below the fold on mobile */
+    margin-bottom: 100px;
   }
 
   .right {
