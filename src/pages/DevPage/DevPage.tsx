@@ -29,10 +29,6 @@ export function DevPage() {
           <p className={styles.text}>Section scaffold (will be filled later).</p>
         </section>
 
-        <section id="contacts" className={styles.section}>
-          <h2 className={styles.h2}>Contacts</h2>
-          <p className={styles.text}>Section scaffold (will be filled later).</p>
-        </section>
       </Container>
     </section>
   )

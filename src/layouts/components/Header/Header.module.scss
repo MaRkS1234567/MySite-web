@@ -360,11 +360,10 @@
     z-index: $z-header;
 
     display: flex;
-    justify-content: center;
     align-items: flex-end;
     gap: 8px;
 
-    padding: 10px 14px;
+    padding: 10px $container-pad-x;
     padding-bottom: calc(10px + env(safe-area-inset-bottom));
 
     pointer-events: none; /* allow only children to receive clicks */
@@ -372,21 +371,12 @@
 
   .mobileNav {
     pointer-events: auto;
+    flex: 1;
 
-    display: inline-flex;
+    display: flex;
     height: 64px;
     align-items: center;
-    gap: 6px;
-
-    width: min(420px, calc(100vw - 110px));
-    max-width: calc(100vw - 110px);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    justify-content: space-evenly;
 
     @include m.glass-panel($radius: 999px, $padding: 4px);
   }
@@ -404,8 +394,10 @@
     justify-content: center;
     gap: 0;
 
+    flex-shrink: 0;
     width: 56px;
     height: 56px;
+    aspect-ratio: 1 / 1;
     padding: 0;
     border-radius: 999px;
 
