@@ -377,8 +377,9 @@
     height: 64px;
     align-items: center;
     justify-content: space-evenly;
+    padding-inline: 4px;
 
-    @include m.glass-panel($radius: 999px, $padding: 4px);
+    @include m.glass-panel($radius: 999px);
   }
 
   .mobileItem {

@@ -26,6 +26,7 @@ const devMenu: MenuItem[] = [
   { label: 'Services', href: '#services' },
   { label: 'Cases', href: '#cases' },
   { label: 'Process', href: '#process' },
+  { label: 'Contacts', href: '#contacts' },
 ]
 
 export function Header() {
