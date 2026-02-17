@@ -12,6 +12,12 @@
   padding: 12px 0;
 }
 
+:global(html[data-mode='tutor']) .navLinkActive button {
+  background: var(--accent) !important;
+  color: #fff;
+  box-shadow: 0 14px 34px var(--accent-glow) !important;
+}
+
 .row {
   position: relative;
   display: flex;
