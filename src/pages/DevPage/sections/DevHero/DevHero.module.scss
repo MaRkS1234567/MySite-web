@@ -73,17 +73,25 @@
   padding: 0 18px;
   border-radius: 999px;
   text-decoration: none;
+  border: 1px solid transparent;
 
   font-size: 15px;
   font-weight: 600;
   line-height: 1;
 
+  cursor: pointer;
+  user-select: none;
+
+  /* Explicit base state */
+  transform: translateY(0);
+  will-change: transform;
+
   transition:
-    transform $dur-3 $ease-out,
-    background $dur-3 $ease-out,
-    border-color $dur-3 $ease-out,
-    box-shadow $dur-3 $ease-out,
-    color $dur-3 $ease-out;
+    transform $dur-2 $ease-out,
+    background $dur-2 $ease-out,
+    color $dur-2 $ease-out,
+    border-color $dur-2 $ease-out,
+    box-shadow $dur-2 $ease-out;
 }
 
 .primaryLink {
@@ -93,6 +101,7 @@
 }
 
 .primaryLink:hover {
+  color: #fff;
   transform: translateY(-1px);
   box-shadow: 0 22px 60px var(--accent-glow);
 }
@@ -119,6 +128,7 @@
 }
 
 .secondaryLink:hover {
+  color: $text;
   background: rgba(255, 255, 255, 0.07);
   border-color: rgba(255, 255, 255, 0.14);
   box-shadow:
@@ -339,8 +349,7 @@
     transform: translate(0, -24px) translateZ(0);
   }
 
-  /* Mobile glow: box-shadow on a 1px point avoids the rectangular blur
-     artifact that filter:blur() on a pseudo-element creates on iOS/Safari */
+  /* Mobile glow: dual box-shadow on a 1px point for ambient + accent layers */
   .photoWrap::before {
     content: '';
     position: absolute;
@@ -351,8 +360,12 @@
     transform: translate(-50%, -50%);
     border-radius: 50%;
     background: transparent;
-    box-shadow: 0 0 min(220px, 44vw) min(160px, 32vw) var(--accent-bg-glow);
-    opacity: 0.85;
+    /* reset desktop filter so box-shadow isn't blurred away */
+    filter: none;
+    box-shadow:
+      0 0 min(140px, 28vw) min(70px, 14vw) var(--accent-glow),
+      0 0 min(280px, 56vw) min(180px, 36vw) var(--accent-bg-glow);
+    opacity: 0.9;
     pointer-events: none;
     z-index: 0;
   }
@@ -367,9 +380,10 @@
     left: 50%;
     transform: translateX(-62%) translateZ(0);
     display: block;
-    /* drop-shadow on a masked element causes bounding-box rectangles on iOS —
-       ambient glow comes from .photoWrap::before box-shadow instead */
-    filter: none;
+    /* contour glow along the silhouette outline */
+    filter:
+      drop-shadow(0 0 10px var(--accent-glow))
+      drop-shadow(0 0 28px var(--accent-bg-glow));
   }
 }
 
