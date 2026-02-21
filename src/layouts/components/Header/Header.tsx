@@ -1,20 +1,20 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import {
-  House,
-  BookOpen,
-  ChatCircle,
-  Star,
-  Question,
   ArrowsClockwise,
-  Envelope,
-  GraduationCap,
+  BookOpen,
+  Briefcase,
+  ChatCircle,
   Code,
   CurrencyDollar,
-  Briefcase,
+  Envelope,
   FolderSimple,
+  GraduationCap,
+  House,
   Plus,
+  Question,
+  Star,
 } from '@phosphor-icons/react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 import { Button } from '../../../shared/ui/Button'
 import { Container } from '../../../shared/ui/Container'
@@ -124,7 +124,7 @@ export function Header() {
 
   const renderIcon = (label: string) => {
     const size = 22
-    const weight = 'light' as const
+    const weight = 'bold' as const
 
     switch (label) {
       case 'MODE_TUTOR':
