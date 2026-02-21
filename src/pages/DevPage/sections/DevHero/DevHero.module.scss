@@ -373,12 +373,12 @@
   .photo {
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
-    width: 160vw;
+    width: 145vw;
     max-width: none;
     margin: 0;
     position: relative;
     left: 50%;
-    transform: translateX(-62%) translateZ(0);
+    transform: translateX(-50%) translateZ(0);
     display: block;
     /* contour glow along the silhouette outline */
     filter:
