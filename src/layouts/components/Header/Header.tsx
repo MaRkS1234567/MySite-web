@@ -1,5 +1,20 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import {
+  House,
+  BookOpen,
+  ChatCircle,
+  Star,
+  Question,
+  ArrowsClockwise,
+  Envelope,
+  GraduationCap,
+  Code,
+  CurrencyDollar,
+  Briefcase,
+  FolderSimple,
+  Plus,
+} from '@phosphor-icons/react'
 
 import { Button } from '../../../shared/ui/Button'
 import { Container } from '../../../shared/ui/Container'
@@ -108,104 +123,36 @@ export function Header() {
   }, [idToLabel, isLanding, mode])
 
   const renderIcon = (label: string) => {
-    const common = {
-      width: 22,
-      height: 22,
-      viewBox: '0 0 24 24',
-      fill: 'none',
-      xmlns: 'http://www.w3.org/2000/svg',
-    }
+    const size = 22
+    const weight = 'light' as const
 
     switch (label) {
       case 'MODE_TUTOR':
-        return (
-          <svg {...common}>
-            <path
-              d="M12 4l9 4-9 4-9-4 9-4z"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinejoin="round"
-            />
-            <path d="M6 10v5c0 1.6 2.7 3 6 3s6-1.4 6-3v-5" stroke="currentColor" strokeWidth="1.6" />
-          </svg>
-        )
+        return <GraduationCap size={size} weight={weight} />
       case 'MODE_DEV':
-        return (
-          <svg {...common}>
-            <path
-              d="M9 8l-3 4 3 4"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M15 8l3 4-3 4"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path d="M13 7l-2 10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-          </svg>
-        )
+        return <Code size={size} weight={weight} />
       case 'Directions':
+        return <BookOpen size={size} weight={weight} />
       case 'About':
-        return (
-          <svg {...common}>
-            <path d="M12 3l8 6v11H4V9l8-6z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-          </svg>
-        )
+        return <House size={size} weight={weight} />
       case 'Pricing':
+        return <CurrencyDollar size={size} weight={weight} />
       case 'Services':
-        return (
-          <svg {...common}>
-            <path d="M7 7h10v10H7V7z" stroke="currentColor" strokeWidth="1.6" />
-            <path d="M9.5 11h5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-            <path d="M9.5 14h3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-          </svg>
-        )
+        return <Briefcase size={size} weight={weight} />
       case 'Reviews':
+        return <Star size={size} weight={weight} />
       case 'Cases':
-        return (
-          <svg {...common}>
-            <path
-              d="M7 4h10a2 2 0 012 2v12l-3-2H7a2 2 0 01-2-2V6a2 2 0 012-2z"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinejoin="round"
-            />
-          </svg>
-        )
+        return <FolderSimple size={size} weight={weight} />
       case 'FAQ':
+        return <Question size={size} weight={weight} />
       case 'Process':
-        return (
-          <svg {...common}>
-            <path d="M12 22a10 10 0 100-20 10 10 0 000 20z" stroke="currentColor" strokeWidth="1.6" />
-            <path
-              d="M9.8 9.2a2.3 2.3 0 114 1.7c-.5.6-1.3.9-1.3 2.1"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-            <path d="M12 17h.01" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
-          </svg>
-        )
+        return <ArrowsClockwise size={size} weight={weight} />
       case 'Apply':
+        return <ChatCircle size={size} weight={weight} />
       case 'Contacts':
-        return (
-          <svg {...common}>
-            <path d="M20 6l-8.5 7L3 6" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-            <path d="M4 6h16v12H4V6z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-          </svg>
-        )
+        return <Envelope size={size} weight={weight} />
       default:
-        return (
-          <svg {...common}>
-            <path d="M6 12h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-            <path d="M12 6v12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-          </svg>
-        )
+        return <Plus size={size} weight={weight} />
     }
   }
 
