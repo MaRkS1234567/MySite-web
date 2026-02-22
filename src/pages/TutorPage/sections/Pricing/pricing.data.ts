@@ -3,6 +3,7 @@ export type Intensity = 'light' | 'standard' | 'intensive'
 export type Frequency = '1x' | '2x' | '3x'
 export type Goal = 'oge' | 'ege' | 'programming' | 'math' | 'grades'
 export type Duration = 60 | 90
+export type Urgency = 'soon' | 'medium' | 'later'
 
 type Localized = { ru: string; en: string }
 type Lang = 'ru' | 'en'
@@ -13,7 +14,7 @@ export type PricingConfig = {
   frequency: Frequency
   goal: Goal
   duration: Duration
-  urgency: boolean
+  urgency: Urgency
   estimatedMin: number
   estimatedMax: number
 }
@@ -46,7 +47,7 @@ export function calculatePrice(config: {
   frequency: Frequency
   goal: Goal
   duration: Duration
-  urgency: boolean
+  urgency: Urgency
 }): [number, number] {
   let [min, max] = [...basePrices[config.format][config.intensity]]
 
@@ -60,9 +61,13 @@ export function calculatePrice(config: {
     max += 200
   }
 
-  if (config.urgency) {
+  // Urgency pricing: soon (≤2 months) = +300, medium (2-6 months) = +150, later (>6 months) = +0
+  if (config.urgency === 'soon') {
     min += 300
     max += 300
+  } else if (config.urgency === 'medium') {
+    min += 150
+    max += 150
   }
 
   if (config.frequency === '3x') {
@@ -93,6 +98,7 @@ export const intensityOptions: Intensity[] = ['light', 'standard', 'intensive']
 export const frequencyOptions: Frequency[] = ['1x', '2x', '3x']
 export const goalOptions: Goal[] = ['oge', 'ege', 'programming', 'math', 'grades']
 export const durationOptions: Duration[] = [60, 90]
+export const urgencyOptions: Urgency[] = ['soon', 'medium', 'later']
 
 /* ── Localized labels ── */
 
@@ -125,6 +131,12 @@ export const goalLabels: Record<Goal, Localized> = {
 export const durationLabels: Record<Duration, Localized> = {
   60: { ru: '60 мин', en: '60 min' },
   90: { ru: '90 мин', en: '90 min' },
+}
+
+export const urgencyLabels: Record<Urgency, Localized> = {
+  soon: { ru: 'Экзамен скоро (≤ 2 мес)', en: 'Exam soon (≤ 2 months)' },
+  medium: { ru: 'До экзамена 2–6 мес', en: '2–6 months until exam' },
+  later: { ru: 'До экзамена > 6 мес', en: '> 6 months until exam' },
 }
 
 /* ── "What's included" per intensity ── */
@@ -188,7 +200,6 @@ export const sectionText = {
   goalLabel: { ru: 'Цель', en: 'Goal' },
   durationLabel: { ru: 'Длительность', en: 'Duration' },
   urgencyLabel: { ru: 'Срочность', en: 'Urgency' },
-  urgencyToggle: { ru: 'Экзамен скоро (≤ 2 мес)', en: 'Exam soon (≤ 2 months)' },
   perLesson: { ru: '₽ / занятие', en: '₽ / lesson' },
   perPerson: { ru: 'за человека', en: 'per person' },
   monthlyLabel: { ru: '₽ / месяц', en: '₽ / month' },
@@ -216,6 +227,7 @@ export function formatPricingSummary(config: PricingConfig, lang: Lang): string 
     formatLabels[config.format][lang],
     intensityLabels[config.intensity][lang],
     frequencyLabels[config.frequency][lang],
+    urgencyLabels[config.urgency][lang],
     `${formatPrice(config.estimatedMin)}–${formatPrice(config.estimatedMax)} ₽`,
   ]
   return parts.join(' · ')

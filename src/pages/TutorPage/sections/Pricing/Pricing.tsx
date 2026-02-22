@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { CaretDown, CheckCircle } from '@phosphor-icons/react'
 
 import { Button } from '../../../../shared/ui/Button'
@@ -15,11 +15,13 @@ import {
   frequencyOptions,
   goalOptions,
   durationOptions,
+  urgencyOptions,
   formatLabels,
   intensityLabels,
   frequencyLabels,
   goalLabels,
   durationLabels,
+  urgencyLabels,
   sectionText,
 } from './pricing.data'
 import type {
@@ -28,6 +30,7 @@ import type {
   Frequency,
   Goal,
   Duration,
+  Urgency,
   PricingConfig,
 } from './pricing.data'
 
@@ -38,6 +41,8 @@ type Lang = 'ru' | 'en'
 type Props = {
   lang?: Lang
   onApply?: (config: PricingConfig) => void
+  initialGoal?: Goal
+  initialIntensity?: Intensity
 }
 
 type PillGroupProps<T extends string | number> = {
@@ -79,14 +84,28 @@ function PillGroup<T extends string | number>({
   )
 }
 
-export function Pricing({ lang = 'ru', onApply }: Props) {
+export function Pricing({ lang = 'ru', onApply, initialGoal, initialIntensity }: Props) {
   const [format, setFormat] = useState<Format>('individual')
   const [intensity, setIntensity] = useState<Intensity>('standard')
   const [frequency, setFrequency] = useState<Frequency>('2x')
   const [goal, setGoal] = useState<Goal>('oge')
   const [duration, setDuration] = useState<Duration>(60)
-  const [urgency, setUrgency] = useState(false)
+  const [urgency, setUrgency] = useState<Urgency>('later')
   const [howOpen, setHowOpen] = useState(false)
+
+  // Set goal from initialGoal prop (when coming from Directions)
+  useEffect(() => {
+    if (initialGoal && goalOptions.includes(initialGoal)) {
+      setGoal(initialGoal)
+    }
+  }, [initialGoal])
+
+  // Set intensity from initialIntensity prop (when coming from Directions)
+  useEffect(() => {
+    if (initialIntensity && intensityOptions.includes(initialIntensity)) {
+      setIntensity(initialIntensity)
+    }
+  }, [initialIntensity])
 
   const config = useMemo(
     () => ({ format, intensity, frequency, goal, duration, urgency }),
@@ -170,21 +189,14 @@ export function Pricing({ lang = 'ru', onApply }: Props) {
               onChange={setDuration}
             />
 
-            {/* Urgency toggle */}
-            <div className={styles.controlGroup}>
-              <p className={styles.controlLabel}>{sectionText.urgencyLabel[lang]}</p>
-              <button
-                type="button"
-                className={[
-                  styles.pill,
-                  styles.pillWide,
-                  urgency ? styles.pillActive : '',
-                ].filter(Boolean).join(' ')}
-                onClick={() => setUrgency((prev) => !prev)}
-              >
-                {sectionText.urgencyToggle[lang]}
-              </button>
-            </div>
+            <PillGroup
+              label={sectionText.urgencyLabel[lang]}
+              options={urgencyOptions}
+              value={urgency}
+              labels={urgencyLabels}
+              lang={lang}
+              onChange={setUrgency}
+            />
 
             {/* How pricing is calculated */}
             <div className={styles.howBlock}>

@@ -5,7 +5,7 @@
   background: rgba(15, 17, 22, 0.5);
 }
 
-.inner {
+.desktopInner {
   display: flex;
   justify-content: center;
   padding: $space-5 0;
@@ -15,7 +15,7 @@
 }
 
 /* Mobile contacts block */
-.mobileContacts {
+.mobileContactsWrapper {
   display: none;
 }
 
@@ -25,11 +25,11 @@
     border-top: none;
   }
 
-  .inner {
-    display: none;
+  .desktopInner {
+    display: none !important;
   }
 
-  .mobileContacts {
+  .mobileContactsWrapper {
     display: block;
     padding: $space-5 $container-pad-x;
     padding-bottom: calc($space-5 + 64px + $space-4);

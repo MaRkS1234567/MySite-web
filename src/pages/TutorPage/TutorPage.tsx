@@ -1,62 +1,40 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { scrollToSection } from '../../shared/lib/scrollToSection'
 import { Button } from '../../shared/ui/Button'
 import { Container } from '../../shared/ui/Container'
 import { Directions } from './sections/Directions'
 import { Pricing } from './sections/Pricing'
+import { Reviews } from './sections/Reviews/Reviews'
 import { TutorHero } from './sections/TutorHero/TutorHero'
 
-import type { FormPrefill } from './sections/Directions'
 import type { PricingConfig } from './sections/Pricing'
 
 import { formatPricingSummary } from './sections/Pricing/pricing.data'
 
 import styles from './TutorPage.module.scss'
 
-const directionLabels: Record<string, { ru: string; en: string }> = {
-  oge: { ru: 'Подготовка к ОГЭ', en: 'OGE Preparation' },
-  ege: { ru: 'Подготовка к ЕГЭ', en: 'EGE Preparation' },
-  programming: { ru: 'Программирование', en: 'Programming' },
-  math: { ru: 'Математика', en: 'Mathematics' },
-}
-
-const intensityLabels: Record<string, { ru: string; en: string }> = {
-  light: { ru: 'Лёгкий', en: 'Light' },
-  standard: { ru: 'Стандарт', en: 'Standard' },
-  intensive: { ru: 'Интенсив', en: 'Intensive' },
-}
-
 export function TutorPage() {
   const lang = 'ru' as const
-  const [prefill, setPrefill] = useState<FormPrefill | null>(null)
   const [pricingConfig, setPricingConfig] = useState<PricingConfig | null>(null)
-
-  const handleApply = useCallback((data: FormPrefill) => {
-    setPrefill(data)
-  }, [])
 
   const handlePricingApply = useCallback((config: PricingConfig) => {
     setPricingConfig(config)
   }, [])
 
-  useEffect(() => {
-    if (!prefill) return
-  }, [prefill])
-
   return (
     <section className={styles.page}>
       <TutorHero />
 
-      <Directions lang={lang} onApply={handleApply} />
+      <Directions lang={lang} />
 
-      <Pricing lang={lang} onApply={handlePricingApply} />
+      <Pricing
+        lang={lang}
+        onApply={handlePricingApply}
+      />
 
       <Container>
-        <section id="reviews" className={styles.section}>
-          <h2 className={styles.h2}>Reviews</h2>
-          <p className={styles.text}>Section scaffold (will be filled later).</p>
-        </section>
+        <Reviews lang={lang} />
 
         <section id="faq" className={styles.section}>
           <h2 className={styles.h2}>FAQ</h2>
@@ -79,41 +57,6 @@ export function TutorPage() {
                 alert('Request sent! (demo)')
               }}
             >
-              {prefill ? (
-                <div className={styles.prefillBanner}>
-                  <span>
-                    {lang === 'ru' ? 'Выбранное направление: ' : 'Selected direction: '}
-                    <strong>{directionLabels[prefill.direction]?.[lang] ?? prefill.direction}</strong>
-                    {' · '}
-                    {intensityLabels[prefill.intensity]?.[lang] ?? prefill.intensity}
-                  </span>
-                  <button
-                    type="button"
-                    className={styles.prefillChange}
-                    onClick={() => {
-                      setPrefill(null)
-                      scrollToSection('directions')
-                    }}
-                  >
-                    {lang === 'ru' ? 'Изменить' : 'Change'}
-                  </button>
-                </div>
-              ) : (
-                <a
-                  href="#directions"
-                  className={styles.directionsHint}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    scrollToSection('directions')
-                  }}
-                >
-                  <span className={styles.directionsHintText}>
-                    {lang === 'ru' ? 'Выберите направление в разделе выше' : 'Select a direction in the section above'}
-                  </span>
-                  <span className={styles.directionsHintArrow}>→</span>
-                </a>
-              )}
-
               {pricingConfig && (
                 <div className={styles.prefillBanner}>
                   <span>
@@ -131,6 +74,22 @@ export function TutorPage() {
                     {lang === 'ru' ? 'Изменить' : 'Change'}
                   </button>
                 </div>
+              )}
+
+              {!pricingConfig && (
+                <a
+                  href="#pricing"
+                  className={styles.directionsHint}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection('pricing')
+                  }}
+                >
+                  <span className={styles.directionsHintText}>
+                    {lang === 'ru' ? 'Выберите формат обучения в разделе Pricing' : 'Select a format in the Pricing section'}
+                  </span>
+                  <span className={styles.directionsHintArrow}>→</span>
+                </a>
               )}
 
               <div className={styles.formGrid}>

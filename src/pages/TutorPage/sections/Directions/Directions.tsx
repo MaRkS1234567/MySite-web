@@ -25,7 +25,7 @@ type Lang = 'ru' | 'en'
 
 type Props = {
   lang?: Lang
-  onApply?: (prefill: FormPrefill) => void
+  onDirectionSelect?: (direction: DirectionId, intensity: Intensity) => void
 }
 
 function trackEvent(name: string, data?: Record<string, string>) {
@@ -39,7 +39,7 @@ type CardProps = {
   intensity: Intensity
   onToggle: () => void
   onIntensityChange: (intensity: Intensity) => void
-  onApply: () => void
+  onSelectDirection: () => void
 }
 
 function DirectionCard({
@@ -49,7 +49,7 @@ function DirectionCard({
   intensity,
   onToggle,
   onIntensityChange,
-  onApply,
+  onSelectDirection,
 }: CardProps) {
   const Icon = dir.icon
 
@@ -134,7 +134,7 @@ function DirectionCard({
                 variant="primary"
                 onClick={(e) => {
                   e.stopPropagation()
-                  onApply()
+                  onSelectDirection()
                 }}
               >
                 {sectionText.cta[lang]}
@@ -147,7 +147,7 @@ function DirectionCard({
   )
 }
 
-export function Directions({ lang = 'ru', onApply }: Props) {
+export function Directions({ lang = 'ru', onDirectionSelect }: Props) {
   const [expandedId, setExpandedId] = useState<DirectionId | null>(null)
   const [intensities, setIntensities] = useState<Record<DirectionId, Intensity>>({
     oge: 'standard',
@@ -168,21 +168,16 @@ export function Directions({ lang = 'ru', onApply }: Props) {
     setIntensities((prev) => ({ ...prev, [id]: intensity }))
   }, [])
 
-  const handleApply = useCallback(
+  const handleSelectDirection = useCallback(
     (dir: Direction) => {
-      const prefill: FormPrefill = {
-        direction: dir.id,
-        goal: dir.goal[lang],
-        intensity: intensities[dir.id],
-      }
-      trackEvent('direction_apply_clicked', {
+      trackEvent('direction_selected_for_pricing', {
         direction: dir.id,
         intensity: intensities[dir.id],
       })
-      onApply?.(prefill)
-      scrollToSection('apply')
+      onDirectionSelect?.(dir.id, intensities[dir.id])
+      scrollToSection('pricing')
     },
-    [lang, intensities, onApply],
+    [intensities, onDirectionSelect],
   )
 
   return (
@@ -203,7 +198,7 @@ export function Directions({ lang = 'ru', onApply }: Props) {
               intensity={intensities[dir.id]}
               onToggle={() => handleToggle(dir.id)}
               onIntensityChange={(i) => handleIntensityChange(dir.id, i)}
-              onApply={() => handleApply(dir)}
+              onSelectDirection={() => handleSelectDirection(dir)}
             />
           ))}
         </div>

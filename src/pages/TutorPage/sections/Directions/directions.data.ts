@@ -154,7 +154,7 @@ export const sectionText = {
     ru: 'Выберите направление — и оставьте заявку с уже заполненными данными',
     en: 'Choose a direction — and apply with your preferences already filled in',
   },
-  cta: { ru: 'Оставить заявку', en: 'Apply' },
+  cta: { ru: 'Перейти к ценам', en: 'View Pricing' },
   intensityLabel: { ru: 'Интенсивность', en: 'Intensity' },
   audienceLabel: { ru: 'Для кого', en: 'Who it\'s for' },
   insideLabel: { ru: 'Что включено', en: 'What\'s inside' },

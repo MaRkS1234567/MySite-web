@@ -1,17 +1,14 @@
-import { Container } from '../../../shared/ui/Container'
 import { Phone, TelegramLogo } from '@phosphor-icons/react'
 import styles from './Footer.module.scss'
 
 export function Footer() {
   return (
     <footer className={styles.footer}>
-      <Container>
-        <div className={styles.inner}>
-          <span>© {new Date().getFullYear()} Mark Sharapov</span>
-        </div>
-      </Container>
+      <div className={styles.desktopInner}>
+        <span>© {new Date().getFullYear()} Mark Sharapov</span>
+      </div>
 
-      <div className={styles.mobileContacts}>
+      <div className={styles.mobileContactsWrapper}>
         <h3 className={styles.mobileContactsTitle}>My Contacts</h3>
         <div className={styles.mobileContactsList}>
           <a href="tel:+79991234567" className={styles.mobileContactItem}>
