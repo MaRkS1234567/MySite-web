@@ -133,6 +133,13 @@
   margin-bottom: $space-8;
 }
 
+.applyContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-8;
+  align-items: stretch;
+}
+
 .applyTitle {
   font-size: $fs-32;
   line-height: $lh-tight;
@@ -187,7 +194,6 @@
 
 /* Apply form */
 .form {
-  margin-top: $space-5;
   display: flex;
   flex-direction: column;
   gap: $space-4;
@@ -251,6 +257,107 @@
   margin-top: $space-2;
 }
 
+/* Info graphic */
+.infoGraphic {
+  padding: $space-6;
+}
+
+.infoGraphicTitle {
+  font-size: $fs-20;
+  line-height: $lh-tight;
+  font-weight: $fw-semibold;
+  color: $text;
+  margin-bottom: $space-6;
+  letter-spacing: -0.02em;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: flex;
+  gap: $space-4;
+  align-items: flex-start;
+}
+
+.stepNumber {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: $fs-14;
+  font-weight: $fw-bold;
+  line-height: 1;
+}
+
+.stepContent {
+  flex: 1;
+  min-width: 0;
+  padding-top: $space-2;
+}
+
+.stepTitle {
+  font-size: $fs-16;
+  line-height: $lh-tight;
+  font-weight: $fw-semibold;
+  color: $text;
+  margin-bottom: $space-1;
+}
+
+.stepDescription {
+  font-size: $fs-14;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  margin: 0;
+}
+
+.stepConnector {
+  position: relative;
+  width: 2px;
+  height: $space-6;
+  margin: $space-2 0 $space-2 20px;
+  background: linear-gradient(
+    to bottom,
+    var(--accent-soft),
+    var(--accent)
+  );
+  border-radius: 2px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+}
+
 @media (max-width: ($bp-md - 1px)) {
   .hero {
     padding: $space-6;
@@ -281,5 +388,23 @@
 
   .applyTitle {
     font-size: $fs-24;
+  }
+
+  .applyContent {
+    grid-template-columns: 1fr;
+    gap: $space-6;
+  }
+
+  .form {
+    max-width: 100%;
+  }
+
+  .infoGraphic {
+    padding: $space-5;
+  }
+
+  .stepConnector {
+    height: $space-5;
+    margin: $space-2 0 $space-2 17px;
   }
 }

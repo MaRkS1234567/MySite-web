@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 
+import { scrollToSection } from '../../shared/lib/scrollToSection'
 import { Button } from '../../shared/ui/Button'
 import { Container } from '../../shared/ui/Container'
-import { scrollToSection } from '../../shared/lib/scrollToSection'
 import { Directions } from './sections/Directions'
 import { TutorHero } from './sections/TutorHero/TutorHero'
 
@@ -65,60 +65,101 @@ export function TutorPage() {
             </p>
           </div>
 
-          <form
-            className={styles.form}
-            onSubmit={(e) => {
-              e.preventDefault()
-              alert('Request sent! (demo)')
-            }}
-          >
-            {prefill && (
-              <div className={styles.prefillBanner}>
-                <span>
-                  {lang === 'ru' ? 'Выбранное направление: ' : 'Selected direction: '}
-                  <strong>{directionLabels[prefill.direction]?.[lang] ?? prefill.direction}</strong>
-                  {' · '}
-                  {intensityLabels[prefill.intensity]?.[lang] ?? prefill.intensity}
-                </span>
-                <button
-                  type="button"
-                  className={styles.prefillChange}
-                  onClick={() => {
-                    setPrefill(null)
-                    scrollToSection('directions')
-                  }}
-                >
-                  {lang === 'ru' ? 'Изменить' : 'Change'}
-                </button>
+          <div className={styles.applyContent}>
+            <form
+              className={styles.form}
+              onSubmit={(e) => {
+                e.preventDefault()
+                alert('Request sent! (demo)')
+              }}
+            >
+              {prefill && (
+                <div className={styles.prefillBanner}>
+                  <span>
+                    {lang === 'ru' ? 'Выбранное направление: ' : 'Selected direction: '}
+                    <strong>{directionLabels[prefill.direction]?.[lang] ?? prefill.direction}</strong>
+                    {' · '}
+                    {intensityLabels[prefill.intensity]?.[lang] ?? prefill.intensity}
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.prefillChange}
+                    onClick={() => {
+                      setPrefill(null)
+                      scrollToSection('directions')
+                    }}
+                  >
+                    {lang === 'ru' ? 'Изменить' : 'Change'}
+                  </button>
+                </div>
+              )}
+
+              <div className={styles.formGrid}>
+                <input className={styles.input} name="name" type="text" placeholder="Name" required />
+
+                <input
+                  className={styles.input}
+                  name="contact"
+                  type="text"
+                  placeholder="Contact (Telegram / phone)"
+                  required
+                />
               </div>
-            )}
 
-            <div className={styles.formGrid}>
-              <input className={styles.input} name="name" type="text" placeholder="Name" required />
-
-              <input
-                className={styles.input}
-                name="contact"
-                type="text"
-                placeholder="Contact (Telegram / phone / email)"
+              <textarea
+                className={styles.textarea}
+                name="details"
+                rows={5}
+                placeholder="Student situation / additional info — current level, what is difficult, deadline, preferred format, anything important…"
                 required
               />
-            </div>
 
-            <textarea
-              className={styles.textarea}
-              name="details"
-              rows={5}
-              placeholder="Student situation / additional info — current level, what is difficult, deadline, preferred format, anything important…"
-              required
-            />
+              <div className={styles.formActions}>
+                <Button variant="primary" type="submit">
+                  Send
+                </Button>
+              </div>
+            </form>
 
-            <div className={styles.formActions}>
-              <Button variant="primary" type="submit">
-                Send
-              </Button>
+            <div className={styles.infoGraphic}>
+              <h3 className={styles.infoGraphicTitle}>How it works</h3>
+              <div className={styles.steps}>
+                <div className={styles.step}>
+                  <div className={styles.stepNumber}>01</div>
+                  <div className={styles.stepContent}>
+                    <h4 className={styles.stepTitle}>Trial Session</h4>
+                    <p className={styles.stepDescription}>
+                      Get to know each other, discuss your goals and current level
+                    </p>
+                  </div>
+                </div>
+
+                <div className={styles.stepConnector} />
+
+                <div className={styles.step}>
+                  <div className={styles.stepNumber}>02</div>
+                  <div className={styles.stepContent}>
+                    <h4 className={styles.stepTitle}>Learning Plan</h4>
+                    <p className={styles.stepDescription}>
+                      I'll create a personalized roadmap based on your needs
+                    </p>
+                  </div>
+                </div>
+
+                <div className={styles.stepConnector} />
+
+                <div className={styles.step}>
+                  <div className={styles.stepNumber}>03</div>
+                  <div className={styles.stepContent}>
+                    <h4 className={styles.stepTitle}>Start Learning</h4>
+                    <p className={styles.stepDescription}>
+                      We agree on a schedule and begin our journey together
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-          </form>
+          </div>
         </section>
       </Container>
     </section>
