@@ -4,9 +4,13 @@ import { scrollToSection } from '../../shared/lib/scrollToSection'
 import { Button } from '../../shared/ui/Button'
 import { Container } from '../../shared/ui/Container'
 import { Directions } from './sections/Directions'
+import { Pricing } from './sections/Pricing'
 import { TutorHero } from './sections/TutorHero/TutorHero'
 
 import type { FormPrefill } from './sections/Directions'
+import type { PricingConfig } from './sections/Pricing'
+
+import { formatPricingSummary } from './sections/Pricing/pricing.data'
 
 import styles from './TutorPage.module.scss'
 
@@ -26,9 +30,14 @@ const intensityLabels: Record<string, { ru: string; en: string }> = {
 export function TutorPage() {
   const lang = 'ru' as const
   const [prefill, setPrefill] = useState<FormPrefill | null>(null)
+  const [pricingConfig, setPricingConfig] = useState<PricingConfig | null>(null)
 
   const handleApply = useCallback((data: FormPrefill) => {
     setPrefill(data)
+  }, [])
+
+  const handlePricingApply = useCallback((config: PricingConfig) => {
+    setPricingConfig(config)
   }, [])
 
   useEffect(() => {
@@ -41,12 +50,9 @@ export function TutorPage() {
 
       <Directions lang={lang} onApply={handleApply} />
 
-      <Container>
-        <section id="pricing" className={styles.section}>
-          <h2 className={styles.h2}>Pricing</h2>
-          <p className={styles.text}>Section scaffold (will be filled later).</p>
-        </section>
+      <Pricing lang={lang} onApply={handlePricingApply} />
 
+      <Container>
         <section id="reviews" className={styles.section}>
           <h2 className={styles.h2}>Reviews</h2>
           <p className={styles.text}>Section scaffold (will be filled later).</p>
@@ -106,6 +112,25 @@ export function TutorPage() {
                   </span>
                   <span className={styles.directionsHintArrow}>→</span>
                 </a>
+              )}
+
+              {pricingConfig && (
+                <div className={styles.prefillBanner}>
+                  <span>
+                    {lang === 'ru' ? 'Параметры: ' : 'Pricing: '}
+                    <strong>{formatPricingSummary(pricingConfig, lang)}</strong>
+                  </span>
+                  <button
+                    type="button"
+                    className={styles.prefillChange}
+                    onClick={() => {
+                      setPricingConfig(null)
+                      scrollToSection('pricing')
+                    }}
+                  >
+                    {lang === 'ru' ? 'Изменить' : 'Change'}
+                  </button>
+                </div>
               )}
 
               <div className={styles.formGrid}>

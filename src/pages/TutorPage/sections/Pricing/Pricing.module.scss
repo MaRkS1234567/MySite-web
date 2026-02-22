@@ -1,0 +1,333 @@
+@use '../../../../shared/styles/variables' as *;
+@use '../../../../shared/styles/mixins' as m;
+
+/* ── Section ── */
+.section {
+  padding: $space-10 0 $space-8;
+  margin-top: 100px;
+  scroll-margin-top: 100px;
+  min-height: calc(100svh - 100px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header {
+  text-align: left;
+  margin-bottom: $space-8;
+}
+
+.title {
+  font-size: $fs-32;
+  line-height: $lh-tight;
+  font-weight: $fw-bold;
+  color: $text;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin-top: $space-3;
+  font-size: $fs-16;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  max-width: 52ch;
+}
+
+/* ── Layout ── */
+.layout {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: $space-8;
+  align-items: start;
+}
+
+/* ── Configurator ── */
+.configurator {
+  @include m.glass-panel($radius: $radius-lg, $padding: $space-6);
+  display: flex;
+  flex-direction: column;
+  gap: $space-5;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.controlLabel {
+  font-size: $fs-12;
+  font-weight: $fw-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $text-faint;
+}
+
+/* ── Pills ── */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.pill {
+  padding: $space-1 $space-4;
+  border-radius: $radius-xs;
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  font-weight: $fw-medium;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.04);
+  color: $text-muted;
+  transition:
+    background $dur-2 $ease-out,
+    border-color $dur-2 $ease-out,
+    color $dur-2 $ease-out,
+    box-shadow $dur-2 $ease-out;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: $text;
+  }
+
+  &:focus-visible {
+    @include m.focus-ring;
+  }
+}
+
+.pillActive {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 12px var(--accent-glow);
+
+  &:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+}
+
+.pillWide {
+  white-space: nowrap;
+}
+
+/* ── How pricing calculated (accordion) ── */
+.howBlock {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: $space-4;
+}
+
+.howToggle {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: $fs-14;
+  font-weight: $fw-medium;
+  color: $text-muted;
+  cursor: pointer;
+  transition: color $dur-2 $ease-out;
+
+  &:hover {
+    color: $text;
+  }
+
+  &:focus-visible {
+    @include m.focus-ring;
+    border-radius: $radius-xs;
+  }
+}
+
+.howChevron {
+  flex-shrink: 0;
+  transition: transform $dur-3 $ease-out;
+}
+
+.howChevronOpen {
+  transform: rotate(180deg);
+}
+
+.howExpandable {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows $dur-3 $ease-out;
+}
+
+.howExpandableOpen {
+  grid-template-rows: 1fr;
+}
+
+.howExpandableInner {
+  overflow: hidden;
+}
+
+.howBody {
+  padding-top: $space-3;
+  font-size: $fs-14;
+  line-height: $lh-relaxed;
+  color: $text-faint;
+}
+
+/* ── Result panel ── */
+.result {
+  @include m.glass-panel($radius: $radius-lg, $padding: $space-6);
+  position: sticky;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: $space-6;
+  border-color: var(--accent);
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.35),
+    0 0 20px var(--accent-glow),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+}
+
+/* ── Price block ── */
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.priceRange {
+  display: flex;
+  align-items: baseline;
+  gap: $space-2;
+  flex-wrap: wrap;
+}
+
+.priceValue {
+  font-size: $fs-32;
+  font-weight: $fw-bold;
+  color: var(--accent);
+  line-height: $lh-tight;
+  letter-spacing: -0.02em;
+}
+
+.priceUnit {
+  font-size: $fs-16;
+  color: $text-muted;
+  line-height: $lh-tight;
+}
+
+.perPersonNote {
+  font-size: $fs-14;
+  color: var(--accent);
+  font-weight: $fw-medium;
+}
+
+.monthlyEstimate {
+  font-size: $fs-16;
+  color: $text-muted;
+  line-height: $lh-normal;
+}
+
+.rangeHint {
+  font-size: $fs-12;
+  color: $text-faint;
+  line-height: $lh-relaxed;
+}
+
+/* ── Includes ── */
+.includesBlock {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: $space-5;
+}
+
+.includesTitle {
+  font-size: $fs-12;
+  font-weight: $fw-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $text-faint;
+  margin-bottom: $space-3;
+}
+
+.includesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.includesItem {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-2;
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  color: $text-muted;
+}
+
+.includesIcon {
+  flex-shrink: 0;
+  color: var(--accent);
+  margin-top: 2px;
+}
+
+/* ── CTA ── */
+.ctaBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.ctaHint {
+  font-size: $fs-12;
+  color: $text-faint;
+  line-height: $lh-relaxed;
+}
+
+/* ── Mobile ── */
+@media (max-width: ($bp-md - 1px)) {
+  .section {
+    padding-top: $space-5;
+    margin-top: 80px;
+    scroll-margin-top: 0;
+    min-height: 100svh;
+  }
+
+  .title {
+    font-size: $fs-24;
+  }
+
+  .header {
+    margin-bottom: $space-6;
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    gap: $space-5;
+  }
+
+  .result {
+    position: static;
+  }
+
+  .configurator {
+    padding: $space-5;
+  }
+
+  .priceValue {
+    font-size: $fs-24;
+  }
+}
+
+@media (max-width: ($bp-sm - 1px)) {
+  .pills {
+    gap: $space-1;
+  }
+
+  .pill {
+    padding: $space-1 $space-3;
+    font-size: $fs-12;
+  }
+}

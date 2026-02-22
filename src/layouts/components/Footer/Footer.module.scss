@@ -13,3 +13,69 @@
   line-height: $lh-normal;
   color: $text-faint;
 }
+
+/* Mobile contacts block */
+.mobileContacts {
+  display: none;
+}
+
+@media (max-width: ($bp-md - 1px)) {
+  .footer {
+    background: transparent;
+    border-top: none;
+  }
+
+  .inner {
+    display: none;
+  }
+
+  .mobileContacts {
+    display: block;
+    padding: $space-5 $container-pad-x;
+    padding-bottom: calc($space-5 + 64px + $space-4);
+  }
+
+  .mobileContactsTitle {
+    font-size: $fs-18;
+    line-height: $lh-tight;
+    font-weight: $fw-semibold;
+    color: $text;
+    margin-bottom: $space-4;
+    letter-spacing: -0.02em;
+  }
+
+  .mobileContactsList {
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+
+  .mobileContactItem {
+    display: flex;
+    align-items: center;
+    gap: $space-3;
+    padding: $space-3 $space-4;
+    border-radius: $radius-md;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: $text;
+    text-decoration: none;
+    font-size: $fs-14;
+    line-height: $lh-normal;
+    font-weight: $fw-medium;
+    transition:
+      background $dur-2 $ease-out,
+      border-color $dur-2 $ease-out,
+      transform $dur-2 $ease-out;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.14);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}

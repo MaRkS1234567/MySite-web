@@ -408,6 +408,10 @@
 }
 
 @media (max-width: ($bp-md - 1px)) {
+  .page {
+    padding: $space-5 0 $space-6;
+  }
+
   .hero {
     padding: $space-6;
     grid-template-columns: 1fr;
@@ -431,7 +435,7 @@
   }
 
   .applySection {
-    padding-top: $space-5;
+    padding-bottom: $space-5;
     scroll-margin-top: 0;
   }
 
@@ -454,6 +458,14 @@
 
   .stepConnector {
     height: $space-5;
-    margin: $space-2 0 $space-2 17px;
+    margin: $space-2 0 $space-2 20px;
+
+    &::before {
+      top: -3px;
+    }
+
+    &::after {
+      bottom: -3px;
+    }
   }
 }
