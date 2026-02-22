@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { Button } from '../../shared/ui/Button'
 import { Container } from '../../shared/ui/Container'
@@ -27,17 +27,12 @@ export function TutorPage() {
   const lang = 'ru' as const
   const [prefill, setPrefill] = useState<FormPrefill | null>(null)
 
-  const directionRef = useRef<HTMLSelectElement>(null)
-  const goalRef = useRef<HTMLInputElement>(null)
-
   const handleApply = useCallback((data: FormPrefill) => {
     setPrefill(data)
   }, [])
 
   useEffect(() => {
     if (!prefill) return
-    if (directionRef.current) directionRef.current.value = prefill.direction
-    if (goalRef.current) goalRef.current.value = prefill.goal
   }, [prefill])
 
   return (
@@ -62,32 +57,13 @@ export function TutorPage() {
           <p className={styles.text}>Section scaffold (will be filled later).</p>
         </section>
 
-        <section id="apply" className={styles.section}>
-          <h2 className={styles.h2}>Apply</h2>
-          <p className={styles.text}>
-            Leave a request — I'll reply with a short plan and the nearest available time slots.
-          </p>
-
-          {prefill && (
-            <div className={styles.prefillBanner}>
-              <span>
-                {lang === 'ru' ? 'Выбранное направление: ' : 'Selected direction: '}
-                <strong>{directionLabels[prefill.direction]?.[lang] ?? prefill.direction}</strong>
-                {' · '}
-                {intensityLabels[prefill.intensity]?.[lang] ?? prefill.intensity}
-              </span>
-              <button
-                type="button"
-                className={styles.prefillChange}
-                onClick={() => {
-                  setPrefill(null)
-                  scrollToSection('directions')
-                }}
-              >
-                {lang === 'ru' ? 'Изменить' : 'Change'}
-              </button>
-            </div>
-          )}
+        <section id="apply" className={styles.applySection}>
+          <div className={styles.applyHeader}>
+            <h2 className={styles.applyTitle}>Apply</h2>
+            <p className={styles.applySubtitle}>
+              Leave a request — I'll reply with a short plan and the nearest available time slots.
+            </p>
+          </div>
 
           <form
             className={styles.form}
@@ -96,68 +72,51 @@ export function TutorPage() {
               alert('Request sent! (demo)')
             }}
           >
-            <div className={styles.formGrid}>
-              <label className={styles.field}>
-                <span className={styles.label}>Name</span>
-                <input className={styles.input} name="name" type="text" placeholder="Your name" required />
-              </label>
-
-              <label className={styles.field}>
-                <span className={styles.label}>Contact</span>
-                <input
-                  className={styles.input}
-                  name="contact"
-                  type="text"
-                  placeholder="Telegram / phone / email"
-                  required
-                />
-              </label>
-
-              <label className={styles.field}>
-                <span className={styles.label}>Direction</span>
-                <select
-                  ref={directionRef}
-                  className={styles.input}
-                  name="direction"
-                  defaultValue="math"
-                  required
+            {prefill && (
+              <div className={styles.prefillBanner}>
+                <span>
+                  {lang === 'ru' ? 'Выбранное направление: ' : 'Selected direction: '}
+                  <strong>{directionLabels[prefill.direction]?.[lang] ?? prefill.direction}</strong>
+                  {' · '}
+                  {intensityLabels[prefill.intensity]?.[lang] ?? prefill.intensity}
+                </span>
+                <button
+                  type="button"
+                  className={styles.prefillChange}
+                  onClick={() => {
+                    setPrefill(null)
+                    scrollToSection('directions')
+                  }}
                 >
-                  <option value="math">Math</option>
-                  <option value="informatics">Informatics</option>
-                  <option value="programming">Programming</option>
-                  <option value="oge">ОГЭ</option>
-                  <option value="ege">ЕГЭ</option>
-                </select>
-              </label>
+                  {lang === 'ru' ? 'Изменить' : 'Change'}
+                </button>
+              </div>
+            )}
 
-              <label className={styles.field}>
-                <span className={styles.label}>Goal</span>
-                <input
-                  ref={goalRef}
-                  className={styles.input}
-                  name="goal"
-                  type="text"
-                  placeholder="Exam / grades / project"
-                />
-              </label>
-            </div>
+            <div className={styles.formGrid}>
+              <input className={styles.input} name="name" type="text" placeholder="Name" required />
 
-            <label className={styles.field}>
-              <span className={styles.label}>Student situation / additional info</span>
-              <textarea
-                className={styles.textarea}
-                name="details"
-                rows={5}
-                placeholder="Current level, what is difficult, deadline, preferred format, anything important…"
+              <input
+                className={styles.input}
+                name="contact"
+                type="text"
+                placeholder="Contact (Telegram / phone / email)"
                 required
               />
-            </label>
+            </div>
+
+            <textarea
+              className={styles.textarea}
+              name="details"
+              rows={5}
+              placeholder="Student situation / additional info — current level, what is difficult, deadline, preferred format, anything important…"
+              required
+            />
 
             <div className={styles.formActions}>
               <Button variant="primary" type="submit">
                 Send
               </Button>
-              <span className={styles.hint}>No spam — only about your request.</span>
             </div>
           </form>
         </section>

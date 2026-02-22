@@ -1,6 +1,6 @@
-import type { ComponentType } from 'react'
 import type { IconProps } from '@phosphor-icons/react'
-import { GraduationCap, Exam, Code, MathOperations } from '@phosphor-icons/react'
+import { Code, Exam, GraduationCap, MathOperations } from '@phosphor-icons/react'
+import type { ComponentType } from 'react'
 
 export type DirectionId = 'oge' | 'ege' | 'programming' | 'math'
 
@@ -85,7 +85,7 @@ export const directions: Direction[] = [
     icon: Code,
     title: { ru: 'Программирование', en: 'Programming' },
     promise: {
-      ru: 'От нуля до уверенного написания собственных проектов',
+      ru: 'От нуля до написания собственных проектов',
       en: 'From zero to confidently building your own projects',
     },
     audience: { ru: 'Начинающие и продолжающие', en: 'Beginners to intermediate' },
