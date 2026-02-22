@@ -1,0 +1,311 @@
+@use '../../../../shared/styles/variables' as *;
+@use '../../../../shared/styles/mixins' as m;
+
+/* ── Section ── */
+.section {
+  padding: $space-10 0 $space-8;
+  scroll-margin-top: 100px;
+}
+
+.header {
+  text-align: left;
+  margin-bottom: $space-8;
+}
+
+.title {
+  font-size: $fs-32;
+  line-height: $lh-tight;
+  font-weight: $fw-bold;
+  color: $text;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin-top: $space-3;
+  font-size: $fs-16;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  max-width: 52ch;
+}
+
+/* ── Grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: stretch;
+  gap: $space-6;
+}
+
+@media (max-width: ($bp-md - 1px)) {
+  .section {
+    padding-top: $space-5;
+    scroll-margin-top: 0;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: $space-5;
+  }
+
+  .title {
+    font-size: $fs-24;
+  }
+}
+
+/* ── Card ── */
+.card {
+  @include m.glass-panel($radius: $radius-lg, $padding: $space-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    transform $dur-3 $ease-out,
+    border-color $dur-3 $ease-out,
+    box-shadow $dur-3 $ease-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow:
+      0 22px 70px rgba(0, 0, 0, 0.4),
+      0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  }
+
+  &:focus-visible {
+    @include m.focus-ring;
+  }
+}
+
+.cardExpanded {
+  align-self: start;
+  justify-content: flex-start;
+  border-color: var(--accent);
+  box-shadow:
+    0 22px 70px rgba(0, 0, 0, 0.4),
+    0 0 24px var(--accent-glow),
+    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+
+  &:hover {
+    border-color: var(--accent);
+    box-shadow:
+      0 22px 70px rgba(0, 0, 0, 0.4),
+      0 0 32px var(--accent-glow),
+      0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  }
+}
+
+/* ── Card header ── */
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-4;
+}
+
+.cardIcon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-sm;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.cardTitleGroup {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardTitle {
+  font-size: $fs-18;
+  line-height: $lh-tight;
+  font-weight: $fw-semibold;
+  color: $text;
+}
+
+.cardPromise {
+  margin-top: $space-1;
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  color: $text-muted;
+}
+
+.chevron {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-faint;
+  transition: transform $dur-3 $ease-out;
+  margin-top: $space-1;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ── Audience ── */
+.cardAudience {
+  margin-top: $space-3;
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  color: $text-faint;
+}
+
+/* ── Expandable accordion ── */
+.expandable {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows $dur-3 $ease-out;
+}
+
+.expandableOpen {
+  grid-template-rows: 1fr;
+}
+
+.expandableInner {
+  overflow: hidden;
+}
+
+.expandableContent {
+  padding-top: $space-5;
+}
+
+/* ── Bullets ── */
+.subLabel {
+  font-size: $fs-12;
+  font-weight: $fw-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $text-faint;
+  margin-bottom: $space-3;
+}
+
+.bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+}
+
+.bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: $space-2;
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  color: $text-muted;
+}
+
+.bulletIcon {
+  flex-shrink: 0;
+  color: var(--accent);
+  margin-top: 2px;
+}
+
+/* ── Tags ── */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+  margin-top: $space-5;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-1 $space-3;
+  border-radius: $radius-xs;
+  font-size: $fs-12;
+  line-height: $lh-normal;
+  font-weight: $fw-medium;
+  color: $text-muted;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── Intensity ── */
+.intensityBlock {
+  margin-top: $space-5;
+}
+
+.intensityPills {
+  display: flex;
+  gap: $space-2;
+}
+
+.intensityPill {
+  padding: $space-1 $space-4;
+  border-radius: $radius-xs;
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  font-weight: $fw-medium;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.04);
+  color: $text-muted;
+  transition:
+    background $dur-2 $ease-out,
+    border-color $dur-2 $ease-out,
+    color $dur-2 $ease-out,
+    box-shadow $dur-2 $ease-out;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: $text;
+  }
+
+  &:focus-visible {
+    @include m.focus-ring;
+  }
+}
+
+.intensityPillActive {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 12px var(--accent-glow);
+
+  &:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+}
+
+/* ── Card actions ── */
+.cardActions {
+  margin-top: $space-5;
+}
+
+/* ── Mobile adjustments ── */
+@media (max-width: ($bp-md - 1px)) {
+  .card {
+    padding: $space-5;
+  }
+
+  .cardIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .header {
+    margin-bottom: $space-6;
+  }
+}
+
+@media (max-width: ($bp-sm - 1px)) {
+  .cardHeader {
+    gap: $space-3;
+  }
+
+  .intensityPills {
+    flex-wrap: wrap;
+  }
+}

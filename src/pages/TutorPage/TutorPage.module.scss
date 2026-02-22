@@ -104,7 +104,6 @@
 }
 
 .section {
-  min-height: 100svh;
   margin-top: $space-8;
   @include m.glass-panel;
   padding: $space-6;
@@ -117,10 +116,46 @@
   color: $text;
 }
 
-
 .text {
   margin-top: $space-3;
   color: $text-muted;
+}
+
+/* Prefill banner */
+.prefillBanner {
+  margin-top: $space-4;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  border-radius: $radius-sm;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent);
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  color: $text;
+}
+
+.prefillChange {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: $fs-14;
+  font-weight: $fw-medium;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  padding: $space-1 $space-2;
+
+  &:hover {
+    color: $text;
+  }
+
+  &:focus-visible {
+    @include m.focus-ring;
+    border-radius: $radius-xs;
+  }
 }
 
 /* Apply form */

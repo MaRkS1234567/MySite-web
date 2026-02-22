@@ -118,6 +118,12 @@ Goal: sell tutoring — show directions, proof (results/reviews), pricing, answe
 
 **Containers**: single consistent width + side padding. Never collapse side padding on mobile. Never globally increase vertical section spacing without explicit request.
 
+**Section spacing & scroll offsets** (reference: Directions section):
+- Desktop: `padding: $space-10 0 $space-8` (64px top, 40px bottom), `scroll-margin-top: 100px` (compensate sticky header)
+- Mobile (<768px): `padding-top: $space-5` (20px — same as gap between cards), `scroll-margin-top: 0` (header is at the bottom, no compensation needed)
+- Section headings: left-aligned, `$fs-32` desktop / `$fs-24` mobile
+- Sections are NOT wrapped in a single glass-panel frame; each card/block gets its own `@include m.glass-panel`
+
 ---
 
 ## Features
