@@ -73,7 +73,7 @@ export function TutorPage() {
                 alert('Request sent! (demo)')
               }}
             >
-              {prefill && (
+              {prefill ? (
                 <div className={styles.prefillBanner}>
                   <span>
                     {lang === 'ru' ? 'Выбранное направление: ' : 'Selected direction: '}
@@ -92,6 +92,20 @@ export function TutorPage() {
                     {lang === 'ru' ? 'Изменить' : 'Change'}
                   </button>
                 </div>
+              ) : (
+                <a
+                  href="#directions"
+                  className={styles.directionsHint}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    scrollToSection('directions')
+                  }}
+                >
+                  <span className={styles.directionsHintText}>
+                    {lang === 'ru' ? 'Выберите направление в разделе выше' : 'Select a direction in the section above'}
+                  </span>
+                  <span className={styles.directionsHintArrow}>→</span>
+                </a>
               )}
 
               <div className={styles.formGrid}>

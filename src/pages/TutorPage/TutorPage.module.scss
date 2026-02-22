@@ -192,6 +192,55 @@
   }
 }
 
+/* Directions hint (when no direction selected) */
+.directionsHint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-2 $space-4;
+  border-radius: $radius-sm;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  color: $text-muted;
+  text-decoration: none;
+  transition:
+    background $dur-2 $ease-out,
+    border-color $dur-2 $ease-out,
+    color $dur-2 $ease-out,
+    transform $dur-2 $ease-out;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.14);
+    color: $text;
+    transform: translateX(2px);
+  }
+
+  &:focus-visible {
+    @include m.focus-ring;
+    border-radius: $radius-xs;
+  }
+}
+
+.directionsHintText {
+  flex: 1;
+}
+
+.directionsHintArrow {
+  flex-shrink: 0;
+  font-size: $fs-16;
+  line-height: 1;
+  color: var(--accent);
+  transition: transform $dur-2 $ease-out;
+
+  .directionsHint:hover & {
+    transform: translateX(4px);
+  }
+}
+
 /* Apply form */
 .form {
   display: flex;
