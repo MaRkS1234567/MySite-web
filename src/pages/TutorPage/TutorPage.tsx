@@ -9,6 +9,7 @@ import { Reviews } from './sections/Reviews/Reviews'
 import { TutorHero } from './sections/TutorHero/TutorHero'
 
 import type { PricingConfig } from './sections/Pricing'
+import type { DirectionId, Intensity } from './sections/Directions/directions.data'
 
 import { formatPricingSummary } from './sections/Pricing/pricing.data'
 
@@ -17,20 +18,27 @@ import styles from './TutorPage.module.scss'
 export function TutorPage() {
   const lang = 'ru' as const
   const [pricingConfig, setPricingConfig] = useState<PricingConfig | null>(null)
+  const [selectedDirection, setSelectedDirection] = useState<{ direction: DirectionId; intensity: Intensity } | null>(null)
 
   const handlePricingApply = useCallback((config: PricingConfig) => {
     setPricingConfig(config)
+  }, [])
+
+  const handleDirectionSelect = useCallback((direction: DirectionId, intensity: Intensity) => {
+    setSelectedDirection({ direction, intensity })
   }, [])
 
   return (
     <section className={styles.page}>
       <TutorHero />
 
-      <Directions lang={lang} />
+      <Directions lang={lang} onDirectionSelect={handleDirectionSelect} />
 
       <Pricing
         lang={lang}
         onApply={handlePricingApply}
+        initialGoal={selectedDirection?.direction}
+        initialIntensity={selectedDirection?.intensity}
       />
 
       <Container>

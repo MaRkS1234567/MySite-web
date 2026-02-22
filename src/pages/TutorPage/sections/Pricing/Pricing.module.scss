@@ -3,9 +3,10 @@
 
 /* ── Section ── */
 .section {
-  padding: $space-10 0 $space-8;
-  margin-top: 100px;
+  padding: 0 0 $space-8;
+  margin-top: 150px;
   scroll-margin-top: 100px;
+  margin-bottom: 80px;
   min-height: calc(100svh - 100px);
   display: flex;
   flex-direction: column;
@@ -289,8 +290,8 @@
 /* ── Mobile ── */
 @media (max-width: ($bp-md - 1px)) {
   .section {
-    padding-top: $space-5;
-    margin-top: 80px;
+    padding: $space-5 0 $space-8;
+    margin-top: 0;
     scroll-margin-top: 0;
     min-height: 100svh;
   }
