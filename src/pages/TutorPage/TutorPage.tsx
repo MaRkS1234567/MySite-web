@@ -160,7 +160,7 @@ export function TutorPage() {
 
                 <div className={styles.formActions}>
                   <Button variant="primary" type="submit" disabled={isLoading}>
-                    {isLoading ? 'Отправка...' : 'Send'}
+                    {isLoading ? 'Отправка...' : 'Отправить'}
                   </Button>
                 </div>
 
