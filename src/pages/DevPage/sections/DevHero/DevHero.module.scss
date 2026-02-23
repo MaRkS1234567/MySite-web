@@ -19,13 +19,14 @@
 
 .inner {
   display: grid;
-  grid-template-columns: 1.35fr 0.85fr;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 48px;
+  gap: 40px;
 }
 
 .left {
   max-width: 760px;
+  width: 70%;
 }
 
 .name {
@@ -147,21 +148,33 @@
 }
 
 .right {
+  /* ensure the photo is visually centered with the text, not the grid column */
   position: relative;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
+
+  /* keep the same horizontal gutter as the left side of the container */
+  padding-right: $container-pad-x;
+
+  margin-right: -42px!important;
+
   padding-top: 0;
   overflow: visible;
+
+  /* Prevent the grid track from expanding to fit the oversized photoWrap */
+  min-width: 0;
 }
+
 
 /* Wrapper for the cutout silhouette */
 .photoWrap {
   position: relative;
-  width: min(980px, 70vw);
+  width: min(2240px, 100vw);
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-end;
+  margin-left: auto;
 
   /* IMPORTANT: no frame/card — photo sits directly on the main background */
   background: transparent;
@@ -171,7 +184,7 @@
   overflow: visible;
 
   /* keep the same visual placement, but avoid over-shifting to the right */
-  transform: translate(-64px, -92px) translateZ(0);
+  transform: translate(0, -82px) scale(1.5) translateZ(0);
   transform-origin: center;
   will-change: transform;
   isolation: isolate;
@@ -184,8 +197,8 @@
   position: absolute;
   left: 50%;
   top: 48%;
-  width: 118%;
-  height: 118%;
+  width: 130%;
+  height: 130%;
   transform: translate(-50%, -50%);
   border-radius: 999px;
   background: radial-gradient(circle at 50% 50%, var(--accent-bg-glow), transparent 62%);
@@ -197,18 +210,19 @@
 
 /* Ensure the photo never shifts on hover */
 .photoWrap:hover {
-  transform: translate(-64px, -92px) translateZ(0);
+  // transform: translate(0, -92px) translateZ(0);
 }
 
 .photoWrap:hover::before {
-  opacity: 0.7;
-  filter: blur(32px);
+  /* keep the glow contained — slightly brighter, not larger */
+  opacity: 0.62;
+  filter: blur(26px);
 }
 
 .photo {
   position: relative;
   z-index: 1;
-  width: min(940px, 66vw);
+  width: min(1080px, 70vw);
   height: auto;
   display: block;
 
@@ -245,8 +259,8 @@
 .photoWrap:hover .photo {
   filter:
     drop-shadow(0 0 14px rgba(255, 255, 255, 0.16))
-    drop-shadow(0 0 62px var(--accent-bg-glow))
-    drop-shadow(0 0 140px var(--accent-glow));
+    drop-shadow(0 0 44px var(--accent-bg-glow))
+    drop-shadow(0 0 96px var(--accent-glow));
 }
 
 /* Responsive */
@@ -269,6 +283,7 @@
     grid-area: photo;
     justify-content: center;
     padding-top: 0;
+    padding-right: 0;
   }
 
   .left {
@@ -304,6 +319,8 @@
 
   .right {
     justify-content: center;
+    padding-right: 0;
+    right: -46%;
   }
 
   .inner {
