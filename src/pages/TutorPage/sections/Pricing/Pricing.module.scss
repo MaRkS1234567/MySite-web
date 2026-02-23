@@ -3,10 +3,10 @@
 
 /* ── Section ── */
 .section {
-  padding: 0 0 $space-8;
-  margin-top: 200px;
+  padding: $space-10 0 $space-10;
+  margin-top: 80px!important;
   margin-bottom: 150px;
-  scroll-margin-top: 100px;
+  scroll-margin-top: 80px;
   min-height: calc(100svh - 100px);
   display: flex;
   flex-direction: column;
