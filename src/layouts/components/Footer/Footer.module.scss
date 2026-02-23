@@ -1,4 +1,5 @@
 @use '../../../shared/styles/variables' as *;
+@use '../../../shared/styles/mixins' as m;
 
 .footer {
   border-top: 1px solid $border;
@@ -7,11 +8,80 @@
 
 .desktopInner {
   display: flex;
-  justify-content: center;
-  padding: $space-5 0;
+  justify-content: space-between;
+  align-items: center;
+  padding: $space-5 $container-pad-x;
   font-size: $fs-14;
   line-height: $lh-normal;
   color: $text-faint;
+  position: relative;
+}
+
+@media (min-width: $bp-lg) {
+  .desktopInner {
+    padding: $space-5 23%;
+  }
+}
+
+.desktopLeft {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  flex: 1;
+}
+
+.desktopCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.desktopRight {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.desktopPhone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  color: $text-muted;
+  font-size: $fs-14;
+  font-weight: $fw-medium;
+  cursor: default;
+}
+
+.desktopContactLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: $radius-xs;
+  color: $text-muted;
+  text-decoration: none;
+  font-size: $fs-14;
+  font-weight: $fw-medium;
+  transition:
+    background $dur-2 $ease-out,
+    color $dur-2 $ease-out,
+    box-shadow $dur-2 $ease-out;
+
+  &:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  &:focus-visible {
+    @include m.focus-ring;
+  }
 }
 
 /* Mobile contacts block */
