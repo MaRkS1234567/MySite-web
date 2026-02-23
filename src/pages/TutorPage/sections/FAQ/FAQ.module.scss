@@ -1,0 +1,447 @@
+@use '../../../../shared/styles/variables' as *;
+@use '../../../../shared/styles/mixins' as m;
+
+/* ── Section ── */
+.section {
+  padding: $space-10 0 $space-10;
+  margin-top: $space-10;
+  scroll-margin-top: 100px;
+}
+
+.header {
+  text-align: left;
+  margin-bottom: $space-8;
+}
+
+.title {
+  font-size: $fs-32;
+  line-height: $lh-tight;
+  font-weight: $fw-bold;
+  color: $text;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin-top: $space-3;
+  font-size: $fs-16;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  max-width: 52ch;
+}
+
+/* ── Two-column layout (desktop) ── */
+.body {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: $bp-md) {
+  .body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $space-8;
+    align-items: start;
+  }
+}
+
+.faqColumn {
+  min-width: 0;
+}
+
+/* ── Search ── */
+.searchWrap {
+  position: relative;
+  margin-bottom: $space-6;
+}
+
+.searchIcon {
+  position: absolute;
+  left: $space-4;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $text-faint;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: $space-3 $space-4 $space-3 44px;
+  min-height: 44px;
+  border-radius: $radius-md;
+  color: $text;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  transition:
+    border-color $dur-3 $ease-out,
+    background $dur-3 $ease-out;
+
+  &::placeholder {
+    color: $text-faint;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.055);
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    @include m.focus-ring;
+  }
+}
+
+/* ── Accordion ── */
+.accordion {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.noResults {
+  padding: $space-6 $space-4;
+  font-size: $fs-14;
+  line-height: $lh-relaxed;
+  color: $text-faint;
+  text-align: center;
+}
+
+/* ── Item ── */
+.item {
+  @include m.glass-panel($radius: $radius-md);
+  overflow: hidden;
+  transition: border-color $dur-3 $ease-out;
+}
+
+.itemOpen {
+  border-color: var(--accent);
+}
+
+/* ── Trigger (question button) ── */
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-4;
+  width: 100%;
+  padding: $space-4 $space-5;
+  min-height: 52px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  color: $text;
+  font-size: $fs-16;
+  line-height: $lh-normal;
+  font-weight: $fw-medium;
+  transition: color $dur-2 $ease-out;
+
+  &:hover {
+    color: var(--accent);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    @include m.focus-ring;
+    border-radius: $radius-sm;
+  }
+}
+
+.question {
+  flex: 1;
+  min-width: 0;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: $text-faint;
+  transition: transform $dur-3 $ease-out, color $dur-2 $ease-out;
+}
+
+.iconOpen {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+
+/* ── Panel (answer) ── */
+.panelWrap {
+  display: grid;
+  transition: grid-template-rows $dur-3 $ease-out;
+}
+
+.panelInner {
+  overflow: hidden;
+}
+
+.answer {
+  padding: 0 $space-5 $space-5;
+  font-size: $fs-14;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+}
+
+/* ── CTA block ── */
+.ctaBlock {
+  margin-top: $space-8;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* ── Infographic column ── */
+.infoColumn {
+  display: none;
+
+  @media (min-width: $bp-md) {
+    display: flex;
+    flex-direction: column;
+    gap: $space-6;
+    position: sticky;
+    top: 120px;
+  }
+}
+
+/* ── CS card wrapper (programming infographic) ── */
+.csCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.csHeader {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  margin-bottom: $space-4;
+}
+
+.csIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-xs;
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.csTitle {
+  font-size: $fs-16;
+  font-weight: $fw-semibold;
+  color: $text;
+}
+
+/* ── Code window (programming infographic) ── */
+.codeWindow {
+  @include m.glass-panel($radius: $radius-md);
+  overflow: hidden;
+}
+
+.codeChrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: $space-3 $space-4;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.chromeDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.chromeDotRed { background: #ff5f57; }
+.chromeDotYellow { background: #febc2e; }
+.chromeDotGreen { background: #28c840; }
+
+.chromeTitle {
+  margin-left: $space-3;
+  font-size: $fs-12;
+  color: $text-faint;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+.codeBody {
+  padding: $space-5;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: $fs-14;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  overflow-x: auto;
+}
+
+.codeComment { color: rgba(255, 255, 255, 0.35); }
+.codeKeyword { color: #ff7b72; }
+.codeName { color: $text; }
+.codeProperty { color: #79c0ff; }
+.codeString { color: #a5d6ff; }
+.codeBool { color: #7ee787; }
+.codePunctuation { color: var(--accent); }
+
+.codeStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.codeStat {
+  padding: $space-4 $space-5;
+  text-align: center;
+
+  &:first-child {
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+  }
+}
+
+.codeStatValue {
+  font-size: $fs-24;
+  font-weight: $fw-bold;
+  color: $text;
+  line-height: $lh-tight;
+}
+
+.codeStatValueAccent {
+  font-size: $fs-24;
+  font-weight: $fw-bold;
+  color: var(--accent);
+  line-height: $lh-tight;
+}
+
+.codeStatLabel {
+  font-size: $fs-12;
+  color: $text-muted;
+  margin-top: $space-1;
+}
+
+/* ── Math infographic ── */
+.mathWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.mathCard {
+  @include m.glass-panel($radius: $radius-md, $padding: $space-5);
+  position: relative;
+  overflow: hidden;
+}
+
+.mathHeader {
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+  margin-bottom: $space-4;
+}
+
+.mathIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-xs;
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $fs-18;
+  color: var(--accent);
+  font-weight: $fw-bold;
+}
+
+.mathTitle {
+  font-size: $fs-16;
+  font-weight: $fw-semibold;
+  color: $text;
+}
+
+.mathFormulas {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+}
+
+.mathFormula {
+  @include m.glass-panel($radius: $radius-sm, $padding: $space-3 $space-4);
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  display: flex;
+  align-items: center;
+  gap: $space-3;
+}
+
+.formulaLabel {
+  font-size: $fs-12;
+  color: $text-faint;
+  font-family: $font-sans;
+  min-width: fit-content;
+}
+
+.formulaText {
+  color: var(--accent);
+  font-weight: $fw-medium;
+}
+
+.mathStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-3;
+  margin-top: $space-5;
+}
+
+.mathStat {
+  @include m.glass-panel($radius: $radius-sm, $padding: $space-3 $space-4);
+  text-align: center;
+}
+
+.mathStatValue {
+  font-size: $fs-20;
+  font-weight: $fw-bold;
+  color: var(--accent);
+  line-height: $lh-tight;
+}
+
+.mathStatLabel {
+  font-size: $fs-12;
+  color: $text-muted;
+  margin-top: 2px;
+}
+
+/* ── Mobile ── */
+@media (max-width: ($bp-md - 1px)) {
+  .section {
+    padding-top: $space-5;
+    padding-bottom: $space-8;
+    scroll-margin-top: 0;
+  }
+
+  .title {
+    font-size: $fs-24;
+  }
+
+  .header {
+    margin-bottom: $space-6;
+  }
+
+  .trigger {
+    padding: $space-3 $space-4;
+    font-size: $fs-14;
+    min-height: 48px;
+  }
+
+  .answer {
+    padding: 0 $space-4 $space-4;
+    font-size: $fs-14;
+  }
+
+  .ctaBlock {
+    margin-top: $space-6;
+  }
+}

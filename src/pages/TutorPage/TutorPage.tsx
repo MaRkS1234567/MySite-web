@@ -5,6 +5,7 @@ import { Button } from '../../shared/ui/Button'
 import { Container } from '../../shared/ui/Container'
 import { Directions } from './sections/Directions'
 import { Pricing } from './sections/Pricing'
+import { FAQ } from './sections/FAQ'
 import { Reviews } from './sections/Reviews/Reviews'
 import { TutorHero } from './sections/TutorHero/TutorHero'
 
@@ -43,12 +44,11 @@ export function TutorPage() {
 
       <Container>
         <Reviews lang={lang} />
+      </Container>
 
-        <section id="faq" className={styles.section}>
-          <h2 className={styles.h2}>FAQ</h2>
-          <p className={styles.text}>Section scaffold (will be filled later).</p>
-        </section>
+      <FAQ lang={lang} />
 
+      <Container>
         <section id="apply" className={styles.applySection}>
           <div className={styles.applyHeader}>
             <h2 className={styles.applyTitle}>Apply</h2>
