@@ -12,21 +12,21 @@ export function TutorHero() {
         <div className={styles.inner}>
           <div className={styles.left}>
             <h1 className={styles.name}>
-              Mark <span className={styles.surname}>Sharapov</span>
+              Марк <span className={styles.surname}>Шарапов</span>
             </h1>
 
             <p className={styles.tagline}>
-              Personal tutoring in math, informatics and programming — focused on clear structure,
-              confidence and measurable progress.
+              Индивидуальные занятия по математике, информатике и программированию — с акцентом на четкую структуру,
+уверенность и измеримый прогресс.
             </p>
 
             <div className={styles.actions}>
               <a className={styles.primaryLink} href="#apply">
-                Apply
+                К заяквке
               </a>
 
               <a className={styles.secondaryLink} href="#pricing">
-                Pricing
+                К ценам
               </a>
             </div>
           </div>

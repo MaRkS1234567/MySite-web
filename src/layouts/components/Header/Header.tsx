@@ -29,11 +29,11 @@ type MenuItem = {
 }
 
 const tutorMenu: MenuItem[] = [
-  { label: 'Directions', href: '#directions' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'Reviews', href: '#reviews' },
+  { label: 'Направления', href: '#directions' },
+  { label: 'Стоимость', href: '#pricing' },
+  { label: 'Отзывы', href: '#reviews' },
   { label: 'FAQ', href: '#faq' },
-  { label: 'Apply', href: '#apply' },
+  { label: 'Оставить заявку', href: '#apply' },
 ]
 
 const devMenu: MenuItem[] = [
@@ -132,24 +132,33 @@ export function Header() {
       case 'MODE_DEV':
         return <Code size={size} weight={weight} />
       case 'Directions':
+      case 'Направления':
         return <BookOpen size={size} weight={weight} />
       case 'About':
+      case 'Обо мне':
         return <House size={size} weight={weight} />
       case 'Pricing':
+      case 'Стоимость':
         return <CurrencyDollar size={size} weight={weight} />
       case 'Services':
+      case 'Услуги':
         return <Briefcase size={size} weight={weight} />
       case 'Reviews':
+      case 'Отзывы':
         return <Star size={size} weight={weight} />
       case 'Cases':
+      case 'Кейсы':
         return <FolderSimple size={size} weight={weight} />
       case 'FAQ':
         return <Question size={size} weight={weight} />
       case 'Process':
+      case 'Процесс':
         return <ArrowsClockwise size={size} weight={weight} />
       case 'Apply':
+      case 'Оставить заявку':
         return <ChatCircle size={size} weight={weight} />
       case 'Contacts':
+      case 'Контакты':
         return <Envelope size={size} weight={weight} />
       default:
         return <Plus size={size} weight={weight} />
@@ -169,7 +178,7 @@ export function Header() {
                     className={({ isActive }) => [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')}
                   >
                     <Button variant="ghost" type="button">
-                      Tutor
+                      Репетитор
                     </Button>
                   </NavLink>
 
@@ -180,7 +189,7 @@ export function Header() {
                     className={({ isActive }) => [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')}
                   >
                     <Button variant="ghost" type="button">
-                      Dev
+                      Разработчик
                     </Button>
                   </NavLink>
                 </div>

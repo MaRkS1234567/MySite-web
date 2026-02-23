@@ -187,13 +187,6 @@
   color: $text-muted;
 }
 
-/* ── CTA block ── */
-.ctaBlock {
-  margin-top: $space-8;
-  display: flex;
-  justify-content: flex-start;
-}
-
 /* ── Infographic column ── */
 .infoColumn {
   display: none;
@@ -439,9 +432,5 @@
   .answer {
     padding: 0 $space-4 $space-4;
     font-size: $fs-14;
-  }
-
-  .ctaBlock {
-    margin-top: $space-6;
   }
 }

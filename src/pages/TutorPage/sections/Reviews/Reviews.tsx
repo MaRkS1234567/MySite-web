@@ -1,6 +1,13 @@
 import { ArrowUpRight } from '@phosphor-icons/react'
 import styles from './Reviews.module.scss'
 
+import reviewImage1 from '../../../../assets/images/reviews/1.jpeg'
+import reviewImage2 from '../../../../assets/images/reviews/2.jpeg'
+import reviewImage3 from '../../../../assets/images/reviews/3.jpeg'
+import reviewImage4 from '../../../../assets/images/reviews/4.jpeg'
+import reviewImage5 from '../../../../assets/images/reviews/5.jpeg'
+import reviewImage6 from '../../../../assets/images/reviews/6.jpeg'
+
 type Lang = 'ru' | 'en'
 
 type Review = {
@@ -8,44 +15,60 @@ type Review = {
   subject: { ru: string; en: string }
   duration: { ru: string; en: string }
   reviewUrl?: string
+  image?: string
+}
+
+const reviewImages: Record<string, string> = {
+  '1': reviewImage1,
+  '2': reviewImage2,
+  '3': reviewImage3,
+  '4': reviewImage4,
+  '5': reviewImage5,
+  '6': reviewImage6,
 }
 
 const reviews: Review[] = [
   {
     id: '1',
-    subject: { ru: 'Математика', en: 'Mathematics' },
-    duration: { ru: '3 месяца до экзамена', en: '3 months until exam' },
-    reviewUrl: '#',
+    subject: { ru: 'ЕГЭ информатика', en: 'EGE Informatics' },
+    duration: { ru: '6 месяца до экзамена', en: '6 months until exam' },
+    reviewUrl: 'https://profi.ru/profile/SharapovMA13/?utm_medium=share_profile&af_ad_type=share_profile&pid=app&utm_campaign=SharapovMA13&c=SharapovMA13',
+    image: reviewImages['1'],
   },
   {
     id: '2',
-    subject: { ru: 'Программирование', en: 'Programming' },
-    duration: { ru: '6 месяцев занятий', en: '6 months of study' },
-    reviewUrl: '#',
+    subject: { ru: 'ЕГЭ информатика', en: 'EGE Informatics' },
+    duration: { ru: '9 месяцев занятий', en: '9 months of study' },
+    reviewUrl: 'https://profi.ru/profile/SharapovMA13/?utm_medium=share_profile&af_ad_type=share_profile&pid=app&utm_campaign=SharapovMA13&c=SharapovMA13',
+    image: reviewImages['2'],
   },
   {
     id: '3',
-    subject: { ru: 'ОГЭ', en: 'OGE' },
-    duration: { ru: '4 месяца подготовки', en: '4 months of preparation' },
-    reviewUrl: '#',
+    subject: { ru: 'ЕГЭ информатика', en: 'EGE Informatics' },
+    duration: { ru: '3 месяца подготовки', en: '3 months of preparation' },
+    reviewUrl: 'https://profi.ru/profile/SharapovMA13/?utm_medium=share_profile&af_ad_type=share_profile&pid=app&utm_campaign=SharapovMA13&c=SharapovMA13',
+    image: reviewImages['3'],
   },
   {
     id: '4',
-    subject: { ru: 'ЕГЭ', en: 'EGE' },
-    duration: { ru: '5 месяцев до экзамена', en: '5 months until exam' },
-    reviewUrl: '#',
+    subject: { ru: 'ЕГЭ математика', en: 'EGE Mathematics' },
+    duration: { ru: '9 месяцев до экзамена', en: '9 months until exam' },
+    reviewUrl: 'https://profi.ru/profile/SharapovMA13/?utm_medium=share_profile&af_ad_type=share_profile&pid=app&utm_campaign=SharapovMA13&c=SharapovMA13',
+    image: reviewImages['4'],
   },
   {
     id: '5',
-    subject: { ru: 'Математика', en: 'Mathematics' },
-    duration: { ru: '2 месяца занятий', en: '2 months of study' },
-    reviewUrl: '#',
+    subject: { ru: 'Программирование', en: 'Programming' },
+    duration: { ru: '7 месяца занятий', en: '7 months of study' },
+    reviewUrl: 'https://profi.ru/profile/SharapovMA13/?utm_medium=share_profile&af_ad_type=share_profile&pid=app&utm_campaign=SharapovMA13&c=SharapovMA13',
+    image: reviewImages['5'],
   },
   {
     id: '6',
-    subject: { ru: 'Программирование', en: 'Programming' },
-    duration: { ru: '4 месяца подготовки', en: '4 months of preparation' },
-    reviewUrl: '#',
+    subject: { ru: 'ОГЭ математика', en: 'OGE Mathematics' },
+    duration: { ru: '2 месяца подготовки', en: '2 months of preparation' },
+    reviewUrl: 'https://profi.ru/profile/SharapovMA13/?utm_medium=share_profile&af_ad_type=share_profile&pid=app&utm_campaign=SharapovMA13&c=SharapovMA13',
+    image: reviewImages['6'],
   },
 ]
 
@@ -60,7 +83,7 @@ export function Reviews({ lang = 'ru' }: Props) {
       ru: 'Отзывы и впечатления от реальных учеников',
       en: 'Reviews and impressions from real students',
     },
-    viewReview: { ru: 'Смотреть отзыв', en: 'View review' },
+    viewReview: { ru: 'Смотреть отзывы', en: 'View reviews' },
   }
 
   return (
@@ -74,9 +97,18 @@ export function Reviews({ lang = 'ru' }: Props) {
         <div className={styles.grid}>
           {reviews.map((review) => (
             <article key={review.id} className={styles.card}>
-              <div className={styles.imagePlaceholder}>
-                {/* Placeholder for student screenshot */}
-              </div>
+              {review.image ? (
+                <img
+                  src={review.image}
+                  alt={`Review ${review.id}`}
+                  className={styles.reviewImage}
+                  loading="lazy"
+                />
+              ) : (
+                <div className={styles.imagePlaceholder}>
+                  {/* Placeholder for student screenshot */}
+                </div>
+              )}
 
               <div className={styles.info}>
                 <div className={styles.details}>

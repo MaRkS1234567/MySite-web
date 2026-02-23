@@ -1,8 +1,6 @@
 import { CaretDown, MagnifyingGlass } from '@phosphor-icons/react'
 import { useCallback, useId, useMemo, useRef, useState } from 'react'
 
-import { scrollToSection } from '../../../../shared/lib/scrollToSection'
-import { Button } from '../../../../shared/ui/Button'
 import { Container } from '../../../../shared/ui/Container'
 
 import type { Lang } from './faq.data'
@@ -32,14 +30,6 @@ export function FAQ({ lang = 'ru' }: Props) {
         item.answer[lang].toLowerCase().includes(q),
     )
   }, [search, lang])
-
-  const handleCtaClick = useCallback(() => {
-    scrollToSection('apply')
-    requestAnimationFrame(() => {
-      const firstInput = document.querySelector<HTMLInputElement>('#apply input[name="name"]')
-      firstInput?.focus()
-    })
-  }, [])
 
   const contentRefs = useRef<Map<string, HTMLDivElement>>(new Map())
 
@@ -131,12 +121,6 @@ export function FAQ({ lang = 'ru' }: Props) {
                   </div>
                 )
               })}
-            </div>
-
-            <div className={styles.ctaBlock}>
-              <Button variant="primary" onClick={handleCtaClick}>
-                {sectionText.cta[lang]}
-              </Button>
             </div>
           </div>
 
