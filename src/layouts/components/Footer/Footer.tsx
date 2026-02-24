@@ -23,7 +23,7 @@ export function Footer() {
       </div>
 
       <div className={styles.mobileContactsWrapper}>
-        <h3 className={styles.mobileContactsTitle}>My Contacts</h3>
+        <h3 className={styles.mobileContactsTitle}>Мои контакты</h3>
         <div className={styles.mobileContactsList}>
           <a href="tel:+79168177633" className={styles.mobileContactItem}>
             <Phone size={20} weight="regular" />

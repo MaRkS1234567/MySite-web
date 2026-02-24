@@ -120,7 +120,7 @@ export function TutorPage() {
                     }}
                   >
                     <span className={styles.directionsHintText}>
-                      {lang === 'ru' ? 'Выберите формат обучения в разделе Pricing' : 'Select a format in the Pricing section'}
+                      {lang === 'ru' ? 'Выберите формат обучения в разделе Стоимость' : 'Select a format in the Pricing section'}
                     </span>
                     <span className={styles.directionsHintArrow}>→</span>
                   </a>
@@ -190,7 +190,7 @@ export function TutorPage() {
                 <div className={styles.step}>
                   <div className={styles.stepNumber}>02</div>
                   <div className={styles.stepContent}>
-                    <h4 className={styles.stepTitle}>Учебный плае</h4>
+                    <h4 className={styles.stepTitle}>Учебный план</h4>
                     <p className={styles.stepDescription}>
                       Я разработаю индивидуальный план действий, 
                     </p>
