@@ -1,7 +1,7 @@
 import { ArrowUpRight, Code, GithubLogo, PaperPlaneTilt, Phone } from '@phosphor-icons/react'
 
-import markPhoto from '../../assets/images/mark-silhouette.png'
 import cvPdfUrl from '../../assets/files/msrksharapov-cv.pdf?url'
+import markPhoto from '../../assets/images/mark-silhouette.png'
 
 import styles from './CvPage.module.scss'
 import { GitHubStats } from './GitHubStats'
@@ -9,8 +9,8 @@ import { GitHubStats } from './GitHubStats'
 const contacts = [
   { Icon: PaperPlaneTilt, text: '@marksharapov', href: 'https://t.me/marksharapov' },
   { Icon: Phone, text: '+7 916 817 76 33', href: 'tel:+79168177633' },
-  { Icon: GithubLogo, text: 'github.com/MaRkS1234567', short: 'github', href: 'https://github.com/MaRkS1234567' },
-  { Icon: Code, text: 'codewars.com', short: 'codewars', href: 'https://www.codewars.com/users/MaRkS1234567', mobileHide: true },
+  { Icon: GithubLogo, text: 'github.com/marksharapovDev', short: 'github', href: 'https://github.com/marksharapovDev' },
+  { Icon: Code, text: 'codewars.com', short: 'codewars', href: 'https://www.codewars.com/users/marksharapovDev', mobileHide: true },
 ]
 
 const experience = [

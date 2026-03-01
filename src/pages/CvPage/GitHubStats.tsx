@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
 import type { CSSProperties } from 'react'
+import { useEffect, useState } from 'react'
 
 import styles from './GitHubStats.module.scss'
 
@@ -86,8 +86,8 @@ export function GitHubStats() {
     async function load() {
       try {
         const [userRes, reposRes] = await Promise.all([
-          fetch('https://api.github.com/users/MaRkS1234567'),
-          fetch('https://api.github.com/users/MaRkS1234567/repos?per_page=100&sort=updated'),
+          fetch('https://api.github.com/users/marksharapovDev'),
+          fetch('https://api.github.com/users/marksharapovDev/repos?per_page=100&sort=updated'),
         ])
 
         if (!userRes.ok || !reposRes.ok) throw new Error('api error')

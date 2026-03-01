@@ -164,7 +164,7 @@ Rules:
 - No `.env` files or `import.meta.env` / `process.env` usage
 - Vite config is minimal (React SWC plugin only)
 - No CI/CD configuration (no GitHub Actions, Netlify, Vercel, or Docker)
-- Git remote: `git@github.com:MaRkS1234567/MySite-web.git`
+- Git remote: `git@github.com:marksharapovDev/MySite-web.git`
 - No deployment target defined yet
 
 ---
