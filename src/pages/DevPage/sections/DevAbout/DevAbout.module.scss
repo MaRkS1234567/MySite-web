@@ -1,0 +1,449 @@
+@use '../../../../shared/styles/variables' as *;
+@use '../../../../shared/styles/mixins' as m;
+
+// ── Reveal animation ─────────────────────────────────────────────────────────
+// Elements start hidden (opacity: 0, translateY: 24px).
+// useReveal adds .visible via IntersectionObserver.
+// prefers-reduced-motion: hook adds .visible immediately — no motion plays.
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 480ms $ease-out,
+    transform 480ms $ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay1 { transition-delay: 80ms; }
+.delay2 { transition-delay: 160ms; }
+.delay3 { transition-delay: 240ms; }
+.delay4 { transition-delay: 320ms; }
+
+// ── Section wrapper ──────────────────────────────────────────────────────────
+
+.section {
+  padding: $space-10 0 $space-8;
+  scroll-margin-top: 100px;
+}
+
+// ── Shared heading ───────────────────────────────────────────────────────────
+
+.blockTitle {
+  font-size: $fs-24;
+  line-height: $lh-tight;
+  font-weight: $fw-bold;
+  color: $text;
+  letter-spacing: -0.02em;
+  margin-bottom: $space-6;
+}
+
+.blockHeader {
+  margin-bottom: $space-7;
+
+  .blockTitle {
+    margin-bottom: $space-2;
+  }
+}
+
+.blockSubtitle {
+  font-size: $fs-16;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+}
+
+// ── Sub-block gap ─────────────────────────────────────────────────────────────
+// .inner is a flex column — gap applies to the direct .reveal children,
+// so spacing is consistent regardless of :first-child tricks.
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: $space-10;
+}
+
+// ── 1. Hero block ─────────────────────────────────────────────────────────────
+
+.heroTitleRow {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: $space-3;
+  // margin-bottom: $space-6;
+}
+
+.heroName {
+  font-size: $fs-40;
+  font-weight: $fw-bold;
+  line-height: $lh-tight;
+  letter-spacing: -0.03em;
+  color: $text;
+}
+
+.heroSlash {
+  font-size: $fs-32;
+  font-weight: $fw-bold;
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+.heroSubtitle {
+  font-size: $fs-32;
+  font-weight: $fw-semibold;
+  line-height: $lh-tight;
+  letter-spacing: -0.02em;
+  color: $text-muted;
+}
+
+// ── 2. Summary block ──────────────────────────────────────────────────────────
+
+.summaryBlock {
+  @include m.glass-panel($radius: $radius-lg, $padding: $space-7);
+}
+
+.summaryBody {
+  font-size: $fs-16;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  max-width: 72ch;
+}
+
+.cvLink {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  margin-top: $space-5;
+  font-size: $fs-14;
+  font-weight: $fw-semibold;
+  color: var(--accent);
+  text-decoration: none;
+  transition:
+    opacity $dur-2 $ease-out,
+    transform $dur-2 $ease-out;
+
+  &:hover {
+    opacity: 0.75;
+    transform: translateX(2px);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-radius: $radius-xs;
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+}
+
+// ── 3. Stack grid ─────────────────────────────────────────────────────────────
+
+.stackGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-5;
+}
+
+.stackCard {
+  @include m.glass-panel($radius: $radius-lg, $padding: $space-6);
+  transition:
+    transform $dur-3 $ease-out,
+    border-color $dur-3 $ease-out,
+    box-shadow $dur-3 $ease-out;
+
+  &:hover {
+    transform: scale(1.02);
+    border-color: var(--accent);
+    box-shadow:
+      0 22px 70px rgba(0, 0, 0, 0.4),
+      0 0 20px var(--accent-glow),
+      0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  }
+}
+
+.stackLabel {
+  font-size: $fs-12;
+  font-weight: $fw-semibold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: $space-4;
+}
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-2;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-1 $space-3;
+  border-radius: $radius-xs;
+  font-size: $fs-14;
+  font-weight: $fw-medium;
+  color: $text-muted;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+  transition:
+    color $dur-2 $ease-out,
+    border-color $dur-2 $ease-out;
+}
+
+.stackCard:hover .chip {
+  color: $text;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+// ── 4. Work approach (timeline) ───────────────────────────────────────────────
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
+.timelineStep {
+  @include m.glass-panel($radius: $radius-lg, $padding: $space-6);
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: $space-6;
+  align-items: start;
+  transition:
+    border-color $dur-3 $ease-out,
+    box-shadow $dur-3 $ease-out;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow:
+      0 22px 70px rgba(0, 0, 0, 0.4),
+      0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  }
+}
+
+.stepNumWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: $radius-sm;
+  background: var(--accent-soft);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.stepNum {
+  font-family: 'DM Mono', 'Roboto Mono', ui-monospace, monospace;
+  font-size: $fs-20;
+  font-weight: $fw-bold;
+  color: var(--accent);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.stepContent {
+  min-width: 0;
+  padding-top: $space-2;
+}
+
+.stepTitle {
+  font-size: $fs-18;
+  font-weight: $fw-semibold;
+  color: $text;
+  line-height: $lh-tight;
+}
+
+.stepDesc {
+  margin-top: $space-2;
+  font-size: $fs-16;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+}
+
+// ── 6. Metrics ────────────────────────────────────────────────────────────────
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $space-5;
+}
+
+.metricLinkWrapper {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: $radius-lg;
+
+  &:focus-visible .metricCard {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+}
+
+.metricCard {
+  @include m.glass-panel($radius: $radius-lg, $padding: $space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: $space-2;
+  position: relative;
+  transition:
+    transform $dur-3 $ease-out,
+    border-color $dur-3 $ease-out,
+    box-shadow $dur-3 $ease-out;
+}
+
+.metricCardLink {
+  cursor: pointer;
+}
+
+.metricLinkWrapper:hover .metricCard {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow:
+    0 22px 70px rgba(0, 0, 0, 0.4),
+    0 0 16px var(--accent-glow),
+    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+}
+
+.metricValue {
+  font-size: $fs-40;
+  font-weight: $fw-bold;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: $text;
+}
+
+.metricLabel {
+  font-size: $fs-14;
+  line-height: $lh-normal;
+  color: $text-muted;
+}
+
+.metricArrow {
+  position: absolute;
+  top: $space-4;
+  right: $space-4;
+  color: var(--accent);
+  opacity: 0.5;
+  transition:
+    opacity $dur-2 $ease-out,
+    transform $dur-2 $ease-out;
+}
+
+.metricLinkWrapper:hover .metricArrow {
+  opacity: 1;
+  transform: translate(2px, -2px);
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+
+@media (min-width: $bp-lg) {
+  .stackGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: ($bp-md - 1px)) {
+  .section {
+    padding-top: $space-5;
+    scroll-margin-top: 0;
+  }
+
+  .inner {
+    gap: $space-8;
+  }
+
+  .blockTitle {
+    font-size: $fs-20;
+  }
+
+  // Hero
+  .heroBlock {
+    padding: $space-6;
+  }
+
+  .heroName {
+    font-size: $fs-32;
+  }
+
+  .heroSlash,
+  .heroSubtitle {
+    font-size: $fs-24;
+  }
+
+  .heroStatement {
+    font-size: $fs-16;
+  }
+
+  .heroActions {
+    flex-direction: column;
+    align-items: stretch;
+
+    .primaryLink,
+    .secondaryLink {
+      text-align: center;
+    }
+  }
+
+  // Summary
+  .summaryBlock {
+    padding: $space-6;
+  }
+
+  // Stack — 1 col on mobile
+  .stackGrid {
+    grid-template-columns: 1fr;
+  }
+
+  // Timeline
+  .timelineStep {
+    grid-template-columns: 56px 1fr;
+    gap: $space-4;
+    padding: $space-5;
+  }
+
+  .stepNumWrap {
+    width: 44px;
+    height: 44px;
+  }
+
+  .stepNum {
+    font-size: $fs-16;
+  }
+
+  // Metrics — 2 col on mobile
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .metricValue {
+    font-size: $fs-32;
+  }
+}
+
+@media (min-width: $bp-sm) and (max-width: ($bp-md - 1px)) {
+  // Tablet: 2-col stack
+  .stackGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: ($bp-sm - 1px)) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-4;
+  }
+
+  .metricValue {
+    font-size: $fs-24;
+  }
+
+  .metricLabel {
+    font-size: $fs-12;
+  }
+}

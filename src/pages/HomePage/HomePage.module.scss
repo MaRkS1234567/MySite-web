@@ -1,0 +1,736 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as m;
+
+/* ── Fonts ── */
+$font-display: 'Syne', ui-sans-serif, system-ui, sans-serif;
+$font-mono: 'DM Mono', 'SF Mono', 'Fira Code', monospace;
+
+/* ── Page shell — vertically centered, scrollable if needed ── */
+.page {
+  min-height: 100dvh;
+  position: relative;
+  z-index: 1; 
+  display: flex;
+  align-items: center;
+}
+
+/* Container drives the flex layout, auto height */
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-top: $space-6;
+  padding-bottom: $space-6;
+}
+
+/* ── Upper area: text left + photo right ── */
+.upper {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  align-items: stretch;
+  gap: 24px;
+}
+
+/* ── Left column ── */
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  max-width: 640px;
+}
+
+/* ── Name — system font, per-letter stagger ── */
+.name {
+  margin: 0;
+  font-family: $font-display;
+  font-weight: 800;
+  font-size: clamp(36px, 5.5vw, 70px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: $text;
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: letterIn 0.5s $ease-out forwards;
+}
+
+@keyframes letterIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Subtitle — DM Mono ── */
+.subtitle {
+  margin-top: 22px;
+  font-family: $font-mono;
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $text-faint;
+
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.6s $ease-out forwards;
+}
+
+/* ── Description ── */
+.desc {
+  margin-top: 28px;
+  font-size: clamp(15px, 1.3vw, 18px);
+  line-height: 1.6;
+  color: $text-muted;
+  max-width: 480px;
+
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.6s $ease-out forwards;
+}
+
+/* ── Tags ── */
+.tags {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  opacity: 0;
+  transform: translateY(16px);
+  animation: fadeUp 0.6s $ease-out forwards;
+}
+
+.tag {
+  font-family: $font-mono;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: $text-muted;
+
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+
+  transition:
+    color $dur-2 $ease-out,
+    border-color $dur-2 $ease-out,
+    box-shadow $dur-2 $ease-out;
+}
+
+.tag:hover {
+  color: $text;
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.06);
+}
+
+/* Dev tags — красный акцент */
+.tagDev {
+  color: rgba($accent-dev, 0.85);
+  border-color: rgba($accent-dev, 0.28);
+  background: rgba($accent-dev, 0.05);
+}
+
+.tagDev:hover {
+  color: $accent-dev;
+  border-color: rgba($accent-dev, 0.55);
+  box-shadow: 0 0 18px rgba($accent-dev, 0.12);
+}
+
+/* Work tags — белый акцент (опыт работы) */
+.tagWork {
+  color: rgba($accent-home, 0.85);
+  border-color: rgba($accent-home, 0.22);
+  background: rgba($accent-home, 0.04);
+}
+
+.tagWork:hover {
+  color: $accent-home;
+  border-color: rgba($accent-home, 0.45);
+  box-shadow: 0 0 18px rgba($accent-home, 0.1);
+}
+
+/* Tutor tags — голубой акцент */
+.tagTutor {
+  color: rgba($accent-tutor, 0.85);
+  border-color: rgba($accent-tutor, 0.25);
+  background: rgba($accent-tutor, 0.05);
+}
+
+.tagTutor:hover {
+  color: $accent-tutor;
+  border-color: rgba($accent-tutor, 0.5);
+  box-shadow: 0 0 18px rgba($accent-tutor, 0.12);
+}
+
+/* ── Right column — photo ── */
+.right {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+  min-width: 0;
+  height: clamp(450px, 65dvh, 650px);
+
+  opacity: 0;
+  transform: translateX(40px);
+  animation: fadeLeft 0.7s $ease-out forwards;
+}
+
+/* Bottom fade overlay — desktop only; hides on mobile via media query */
+.right::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50%;
+  // background: linear-gradient(to bottom, transparent 0%, $bg 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.photoWrap {
+  
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  transform: scale(1.45) translateY(7%);
+  transform-origin: bottom center;
+}
+
+/* Tri-color glow under photo */
+.photoWrap::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  width: 110%;
+  height: 55%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(120, 190, 255, 0.18), transparent 60%),
+    radial-gradient(ellipse at 70% 50%, rgba(255, 42, 42, 0.14), transparent 60%),
+    ;
+  filter: blur(44px);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 0;
+
+  animation: glowPulse 4s ease-in-out infinite;
+}
+
+.photo {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  width: auto;
+  max-height: 150%;
+  object-fit: contain;
+  display: block;
+
+  // mask-image: linear-gradient(
+  //   to bottom,
+  //   rgba(0, 0, 0, 1) 0%,
+  //   rgba(0, 0, 0, 1) 72%,
+  //   rgba(0, 0, 0, 0) 100%
+  // );
+  // -webkit-mask-image: linear-gradient(
+  //   to bottom,
+  //   rgba(0, 0, 0, 1) 0%,
+  //   rgba(0, 0, 0, 1) 72%,
+  //   rgba(0, 0, 0, 0) 100%
+  // );
+
+  filter:
+    // drop-shadow(0 0 10px rgba(255, 255, 255, 0.07))
+    drop-shadow(0 0 36px rgba(120, 190, 255, 0.10))
+    drop-shadow(0 0 70px rgba(255, 42, 42, 0.07));
+
+  animation: float 4s ease-in-out infinite;
+
+  
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.85; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+}
+
+/* ── Gradient divider ── */
+.divider {
+  display: none;
+}
+
+/* ── Lower stats — three separate glass cards ── */
+.lower {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  min-height: 120px;
+  margin-top: -55px;
+
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.6s $ease-out forwards;
+  animation-delay: 600ms;
+}
+
+/* ── Stat card base ── */
+.statCard {
+  appearance: none;
+  cursor: pointer;
+  text-align: left;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 14px 18px;
+  position: relative;
+  overflow: hidden;
+
+  @include m.glass-panel($radius: $radius-xs);
+
+  transition:
+    background $dur-2 $ease-out,
+    border-color $dur-2 $ease-out,
+    transform $dur-2 $ease-out,
+    box-shadow $dur-2 $ease-out;
+}
+
+/* Dot grid background — shared across all cards */
+.statCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.07) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Large text watermark — shared positioning */
+.statCard::after {
+  position: absolute;
+  right: 12px;
+  bottom: -6px;
+  font-size: 72px;
+  font-weight: 800;
+  font-family: $font-sans;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.statCard:hover {
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateY(-2px) scale(1.005);
+}
+
+.statCard:active {
+  transform: scale(0.995);
+}
+
+.statCard:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.statValue {
+  position: relative;
+  z-index: 1;
+  font-family: $font-sans;
+  font-weight: $fw-bold;
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: 1;
+  color: $text;
+
+  transition: color $dur-2 $ease-out;
+}
+
+.statLabel {
+  position: relative;
+  z-index: 1;
+  font-family: $font-mono;
+  font-size: clamp(11px, 0.9vw, 13px);
+  font-weight: 400;
+  color: $text-faint;
+  letter-spacing: 0.03em;
+}
+
+.statArrow {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-6px);
+  font-size: 18px;
+  color: $text-faint;
+  opacity: 0;
+  z-index: 2;
+
+  transition:
+    opacity $dur-2 $ease-out,
+    transform $dur-2 $ease-out;
+}
+
+.statCard:hover .statArrow {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* ─────────────────────────────────────────────
+   CV Card (accentHome)
+───────────────────────────────────────────── */
+.accentHome {
+  border-color: rgba($accent-home, 0.15);
+}
+
+.accentHome::after {
+  content: 'cv';
+  color: rgba($accent-home, 0.055);
+}
+
+.accentHome .statValue {
+  color: rgba($accent-home, 0.88);
+}
+
+.accentHome:hover {
+  border-color: rgba($accent-home, 0.3);
+  border-left-color: rgba($accent-home, 0.8);
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 8px 30px rgba(240, 239, 233, 0.08);
+}
+
+.accentHome:hover .statValue {
+  color: $accent-home;
+}
+
+
+/* ─────────────────────────────────────────────
+   Dev Card (accentDev)
+───────────────────────────────────────────── */
+.accentDev {
+  border-color: rgba($accent-dev, 0.22);
+}
+
+.accentDev::after {
+  content: 'dev';
+  color: rgba($accent-dev, 0.08);
+  font-size: 72px;
+}
+
+/* Value always red */
+.accentDev .statValue {
+  color: rgba($accent-dev, 0.88);
+}
+
+.accentDev:hover {
+  border-color: rgba($accent-dev, 0.65);
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 8px 30px rgba(255, 42, 42, 0.12);
+}
+
+.accentDev:hover .statValue {
+  color: $accent-dev;
+}
+
+/* ─────────────────────────────────────────────
+   Tutor Card (accentTutor)
+───────────────────────────────────────────── */
+.accentTutor {
+  border-color: rgba($accent-tutor, 0.22);
+}
+
+.accentTutor::after {
+  content: 'tutor';
+  color: rgba($accent-tutor, 0.07);
+  font-size: 58px;
+}
+
+/* Value always blue */
+.accentTutor .statValue {
+  color: rgba($accent-tutor, 0.88);
+}
+
+.accentTutor:hover {
+  border-color: rgba($accent-tutor, 0.65);
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.35),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 8px 30px rgba(120, 190, 255, 0.14);
+}
+
+.accentTutor:hover .statValue {
+  color: $accent-tutor;
+}
+
+/* ── Shared animations ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeLeft {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Responsive: tablet ── */
+@media (max-width: ($bp-lg - 1px)) {
+  .upper {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+/* ── Responsive: mobile ── */
+@media (max-width: ($bp-md - 1px)) {
+  :global(html[data-mode='home']) {
+    overflow: hidden;
+  }
+
+  .page {
+    min-height: 100dvh;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  .container {
+    padding-top: 80px;
+    padding-bottom: $space-5;
+    justify-content: space-between;
+  }
+
+  .upper {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .right {
+    padding-top: 60px;
+    order: 1;
+    overflow: visible;
+    align-items: flex-end;
+    justify-content: center;
+    height: 105dvh;
+    min-height: 600px;
+    max-height: none;
+    margin-left: calc(-1 * #{$container-pad-x});
+    margin-right: calc(-1 * #{$container-pad-x});
+    width: calc(95% + 2 * #{$container-pad-x});
+  }
+
+  .right::after {
+    display: none;
+  }
+
+  .photoWrap {
+    width: 230%;
+    max-width: none;
+    height: 195%;
+    margin: 0 auto;
+    padding-top: 70px;
+    align-items: flex-end;
+    justify-content: center;
+    transform: none;
+    border: none;
+    outline: none;
+  }
+
+  .photo {
+    height: 100%;
+    width: 2000px!important;
+    max-width: none;
+    max-height: none;
+    transform: translateX(-6%);
+    transform-origin: center bottom;
+    mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 95%);
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 95%);
+  }
+
+  .left {
+    order: 2;
+    max-width: 100%;
+    justify-content: flex-start;
+    text-align: left;
+    align-items: flex-start; 
+  }
+
+  .name {
+    padding-top: 25px;
+    font-size: clamp(36px, 10vw, 52px);
+    justify-content: flex-start;
+  }
+
+  .subtitle {
+    display: none;
+  }
+
+  .desc {
+    margin-top: 10px;
+    font-size: 14px;
+    max-width: 100%;
+  }
+
+  .tags {
+    display: none;
+  }
+
+  .lower {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    
+  }
+
+  .statCard {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 14px 14px;
+    min-height: 64px;
+  }
+
+  /* Reset CV desktop horizontal */
+  .accentHome {
+    flex-direction: row;
+    gap: 12px;
+    padding-right: 36px;
+  }
+
+  .accentHome .statValue,
+  .statValue {
+    font-size: 26px;
+    min-width: 44px;
+  }
+
+  .statLabel {
+    font-size: 12px;
+  }
+
+  .statArrow {
+    right: 14px;
+  }
+
+  .divider {
+    display: none;
+  }
+}
+
+/* ── Small mobile ── */
+@media (max-width: ($bp-sm - 1px)) {
+  .page {
+    min-height: 100dvh;
+  }
+
+  .container {
+    padding-top: $space-5;
+    padding-bottom: $space-3;
+  }
+
+  .upper {
+    gap: 0;
+  }
+
+  .right {
+    height: 44dvh;
+    min-height: 180px;
+  }
+
+  .photo {
+    transform: translateX(-6%);
+  }
+
+  .name {
+    font-size: clamp(32px, 9vw, 42px);
+  }
+
+  .desc {
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  .lower {
+    gap: 8px;
+    margin-top: 0;
+  }
+
+  .statCard {
+    padding: 12px 12px;
+    min-height: 58px;
+  }
+
+  .statValue {
+    font-size: 22px;
+    min-width: 40px;
+  }
+
+  .statLabel {
+    font-size: 11px;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .letter,
+  .subtitle,
+  .desc,
+  .tags,
+  .right,
+  .lower {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .photo {
+    animation: none;
+  }
+
+  .photoWrap::before {
+    animation: none;
+  }
+}

@@ -1,0 +1,148 @@
+@use '../../../../shared/styles/variables' as *;
+@use '../../../../shared/styles/mixins' as m;
+
+// ── Reveal ────────────────────────────────────────────────────────────────────
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 480ms $ease-out,
+    transform 480ms $ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay1 { transition-delay: 80ms; }
+.delay2 { transition-delay: 160ms; }
+.delay3 { transition-delay: 240ms; }
+
+// ── Section ───────────────────────────────────────────────────────────────────
+
+.section {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding: $space-10 0 $space-8;
+  justify-content: center;
+  scroll-margin-top: 35px;
+}
+
+// ── Heading ───────────────────────────────────────────────────────────────────
+
+.heading {
+  font-size: $fs-32;
+  line-height: $lh-tight;
+  font-weight: $fw-bold;
+  letter-spacing: -0.02em;
+  color: $text;
+  margin-bottom: $space-7;
+}
+
+// ── Cards grid ────────────────────────────────────────────────────────────────
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-5;
+}
+
+.card {
+  @include m.glass-panel($radius: $radius-lg, $padding: $space-6);
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+  transition:
+    transform $dur-3 $ease-out,
+    border-color $dur-3 $ease-out,
+    box-shadow $dur-3 $ease-out;
+
+  &:hover {
+    transform: scale(1.01);
+    border-color: var(--accent);
+    box-shadow:
+      0 22px 70px rgba(0, 0, 0, 0.4),
+      0 0 20px var(--accent-glow),
+      0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  }
+}
+
+.cardTitle {
+  font-size: $fs-18;
+  font-weight: $fw-semibold;
+  line-height: $lh-tight;
+  color: $text;
+}
+
+.cardDesc {
+  font-size: $fs-16;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  flex: 1;
+}
+
+.cardMeta {
+  display: block;
+  font-family: 'DM Mono', 'Roboto Mono', ui-monospace, monospace;
+  font-size: $fs-12;
+  line-height: $lh-normal;
+  color: $text-faint;
+  margin-top: $space-1;
+}
+
+// ── CTA ───────────────────────────────────────────────────────────────────────
+
+.ctaRow {
+  margin-top: $space-7;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  font-size: $fs-16;
+  font-weight: $fw-semibold;
+  color: var(--accent);
+  text-decoration: none;
+  border-radius: $radius-xs;
+  transition:
+    opacity $dur-2 $ease-out,
+    transform $dur-2 $ease-out;
+
+  &:hover {
+    opacity: 0.75;
+    transform: translateX(3px);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+}
+
+// ── Responsive ────────────────────────────────────────────────────────────────
+
+@media (max-width: ($bp-md - 1px)) {
+  .section {
+    padding: $space-7 0 $space-8;
+    scroll-margin-top: 0;
+  }
+
+  .heading {
+    font-size: $fs-24;
+    margin-bottom: $space-6;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: $space-5;
+  }
+}

@@ -12,21 +12,21 @@ export function DevHero() {
         <div className={styles.inner}>
           <div className={styles.left}>
             <h1 className={styles.name}>
-              Mark <span className={styles.surname}>Sharapov</span>
+              Марк <span className={styles.surname}>Шарапов</span>
             </h1>
 
             <p className={styles.tagline}>
-              Web development & product engineering — React/TypeScript, clean UI systems and fast iterations.
-              I build landing pages and interfaces that look premium and ship reliably.
+              Веб-разработка и разработка продуктов — React/TypeScript, чистые UI-системы и быстрые итерации.
+Я создаю целевые страницы и интерфейсы, которые выглядят премиально и надежно работают.
             </p>
 
             <div className={styles.actions}>
               <a className={styles.primaryLink} href="#contacts">
-                Contacts
+                Контакты
               </a>
 
               <a className={styles.secondaryLink} href="#cases">
-                Cases
+                Кейсы
               </a>
             </div>
           </div>

@@ -37,7 +37,7 @@
 .modePill {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 0;
   height: 56px;
 
   padding: 4px;
@@ -107,13 +107,19 @@
 .segmentWrap {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+}
+
+.modeTabGroup {
+  display: inline-flex;
+  align-items: center;
 }
 
 .segmentDivider {
   width: 1px;
   height: 26px;
   background: rgba(255, 255, 255, 0.14);
+  flex-shrink: 0;
 }
 
 .navLink {
@@ -121,13 +127,18 @@
   border-radius: 999px;
 }
 
-/* Make the buttons feel like segmented control */
+/* Make the buttons feel like segmented control — icon-only square */
 .navLink button {
-  height: 40px;
-  padding: 0 18px;
+  height: 44px;
+  width: 44px;
+  padding: 0;
   border-radius: 999px;
   background: transparent;
   border-color: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
   transition:
     background $dur-3 $ease-out,
@@ -152,11 +163,23 @@
   box-shadow: 0 10px 26px var(--accent-glow) !important;
 }
 
-/* Dev section: make the active segment solid accent (red)
+/* Per-mode active segment: solid accent background
    NOTE: html selector must be global for CSS Modules */
 :global(html[data-mode='dev']) .navLinkActive button {
   background: var(--accent) !important;
   color: #fff;
+  box-shadow: 0 14px 34px var(--accent-glow) !important;
+}
+
+:global(html[data-mode='home']) .navLinkActive button {
+  background: var(--accent) !important;
+  color: $bg;
+  box-shadow: 0 14px 34px var(--accent-glow) !important;
+}
+
+:global(html[data-mode='cv']) .navLinkActive button {
+  background: var(--accent) !important;
+  color: $bg;
   box-shadow: 0 14px 34px var(--accent-glow) !important;
 }
 
@@ -167,19 +190,9 @@
 
 /*
   Header states
-  - Landing: pill centered
-  - Expanded: pill moves to the left
 */
-.isLanding .row {
-  justify-content: center;
-}
-
 .isExpanded .row {
   justify-content: center;
-}
-
-.isLanding .sectionsPill {
-  display: none;
 }
 
 .isExpanded .sectionsPill {
@@ -288,27 +301,19 @@
   display: none;
 }
 
-.mobileModeWrap {
+.mobileModeNav {
   display: none;
 }
 
-.mobileModeButton {
+.mobileModeItem {
+  display: none;
+}
+
+.mobileModeItemActive {
   display: none;
 }
 
 .mobileModeIcon {
-  display: none;
-}
-
-.mobileModePopover {
-  display: none;
-}
-
-.mobileModeLink {
-  display: none;
-}
-
-.mobileModeLinkActive {
   display: none;
 }
 /* Responsive: on small screens keep only the segmented control */
@@ -337,6 +342,51 @@
     pointer-events: none; /* allow only children to receive clicks */
   }
 
+  /* When there's no menu AND no cv pill, mode button is alone at right */
+  .mobileBar:has(.mobileNav:empty),
+  .mobileBar:not(:has(.mobileNav)):not(:has(.cvDownloadPill)) {
+    justify-content: flex-end;
+  }
+
+  /* CV download pill — pill-shaped, matches the mobileNav look */
+  .cvDownloadPill {
+    pointer-events: auto;
+    flex: 1;
+
+    height: 64px;
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(14px);
+    box-shadow:
+      0 18px 60px rgba(0, 0, 0, 0.35),
+      0 1px 0 rgba(255, 255, 255, 0.06) inset;
+
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: rgba(240, 239, 233, 0.75);
+    cursor: pointer;
+
+    transition:
+      background $dur-3 $ease-out,
+      color $dur-3 $ease-out;
+
+    &:active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #f0efe9;
+      transform: scale(0.98);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow:
+        0 18px 60px rgba(0, 0, 0, 0.35),
+        0 0 0 3px rgba(240, 239, 233, 0.3);
+    }
+  }
+
   .mobileNav {
     pointer-events: auto;
     flex: 1;
@@ -348,6 +398,11 @@
     padding-inline: 4px;
 
     @include m.glass-panel($radius: 999px);
+  }
+
+  /* Hide mobileNav when there's no menu */
+  .mobileNav:empty {
+    display: none;
   }
 
   .mobileItem {
@@ -399,15 +454,64 @@
     transform: scale(0.98);
   }
 
-  /* Separate circular mode switch */
-  .mobileModeWrap {
+  /* Mode navigation pill (tutor / dev / cv icons) */
+  .mobileModeNav {
+    pointer-events: auto;
+    flex: 0 0 auto;
+
+    display: flex;
+    height: 64px;
+    align-items: center;
+    gap: 0;
+    padding-inline: 4px;
+
+    @include m.glass-panel($radius: 999px);
+  }
+
+  .mobileModeItem {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+
+    color: $text-muted;
+
+    transition:
+      background $dur-3 $ease-out,
+      color $dur-3 $ease-out,
+      transform $dur-3 $ease-out;
+  }
+
+  .mobileModeItem:active {
+    transform: scale(0.96);
+  }
+
+  .mobileModeItemActive {
+    color: $text;
+    background: var(--accent-soft);
+  }
+
+  .mobileModeIcon {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+  }
 
-    position: relative;
-    margin-left: 0;
-    flex: 0 0 auto;
+  .mobileModeIcon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Mode button (circular, for switching between pages) */
+  .mobileModeWrap {
     pointer-events: auto;
+    flex: 0 0 auto;
   }
 
   .mobileModeButton {
@@ -425,7 +529,7 @@
     justify-content: center;
 
     border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(18, 18, 20, 0.82);
+    background: rgba(18, 18, 20, 0.55);
     backdrop-filter: blur(16px);
 
     box-shadow:
@@ -476,12 +580,6 @@
     width: 28px;
     height: 28px;
 
-    /* Slightly “neon” tint like the reference */
     color: var(--accent);
-  }
-
-  .mobileModeIcon svg {
-    width: 28px;
-    height: 28px;
   }
 }

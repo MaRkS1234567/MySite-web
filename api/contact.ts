@@ -22,17 +22,16 @@ function formatTutorMessage(fields: {
 }
 
 function formatDevMessage(fields: {
-  format: string
   name: string
   contact: string
   description: string
 }) {
   return [
-    '🔔 *Новая заявка — Разработка*',
-    `📋 Формат: ${fields.format}`,
+    '🔔 *Новая заявка — Разработчик*',
+    '',
     `👤 Имя: ${fields.name}`,
     `📞 Контакт: ${fields.contact}`,
-    `📝 Описание: ${fields.description}`,
+    `📝 О проекте: ${fields.description}`,
   ].join('\n')
 }
 
@@ -55,7 +54,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const text =
       type === 'tutor'
         ? formatTutorMessage({ format, name, contact, description })
-        : formatDevMessage({ format, name, contact, description })
+        : formatDevMessage({ name, contact, description })
 
     const telegramRes = await fetch(
       `https://api.telegram.org/bot${process.env.BOT_TOKEN}/sendMessage`,

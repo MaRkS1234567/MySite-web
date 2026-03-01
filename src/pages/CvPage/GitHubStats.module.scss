@@ -1,0 +1,153 @@
+@use '../../shared/styles/variables' as *;
+@use '../../shared/styles/mixins' as m;
+
+// ── Local tokens (mirrors CvPage.module.scss) ───────────────────────────────
+$font-syne: 'Syne', sans-serif;
+$font-mono: 'DM Mono', monospace;
+$cv-accent: #f0efe9;
+$cv-muted: #a0a0a8;
+$cv-faint: #8b8b94;
+$cv-border: rgba(240, 239, 233, 0.2);
+
+// ── Keyframes ───────────────────────────────────────────────────────────────
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes fillBar {
+  to {
+    width: var(--fill);
+  }
+}
+
+// ── Root container ──────────────────────────────────────────────────────────
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+// ── Row 1 — stat numbers ────────────────────────────────────────────────────
+.statsRow {
+  display: flex;
+  gap: 24px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statValue {
+  font-family: $font-syne;
+  font-weight: 700;
+  font-size: 28px;
+  color: $cv-accent;
+  line-height: 1;
+}
+
+.statLabel {
+  font-family: $font-mono;
+  font-size: 10px;
+  color: $cv-muted;
+  line-height: 1.4;
+  letter-spacing: 0.03em;
+}
+
+// ── Row 2 — language tags ───────────────────────────────────────────────────
+.languageTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+// Matches .skillTag in CvPage.module.scss
+.languageTag {
+  font-family: $font-mono;
+  font-size: 11px;
+  color: $cv-muted;
+  border: 1px solid $cv-border;
+  border-radius: 3px;
+  padding: 4px 10px;
+}
+
+// ── Row 3 — language bars ───────────────────────────────────────────────────
+.languageBars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.langBarRow {
+  display: grid;
+  grid-template-columns: 90px 1fr 28px;
+  align-items: center;
+  gap: 8px;
+}
+
+.langBarLabel {
+  font-family: $font-mono;
+  font-size: 10px;
+  color: $cv-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.langBarTrack {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.langBarFill {
+  height: 100%;
+  width: 0;
+  background: rgba(240, 239, 233, 0.7);
+  border-radius: 2px;
+  animation: fillBar 0.6s ease-out forwards;
+  animation-delay: 300ms;
+}
+
+.langBarCount {
+  font-family: $font-mono;
+  font-size: 10px;
+  color: $cv-faint;
+  text-align: right;
+}
+
+// ── Skeleton states ─────────────────────────────────────────────────────────
+.skeletonBlock {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.skeletonBar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+// ── Reduced motion ──────────────────────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  .langBarFill {
+    animation: none;
+    width: var(--fill);
+  }
+
+  .skeletonBlock,
+  .skeletonBar {
+    animation: none;
+    opacity: 0.4;
+  }
+}

@@ -51,8 +51,8 @@ const reviews: Review[] = [
   },
   {
     id: '4',
-    subject: { ru: 'ЕГЭ математика', en: 'EGE Mathematics' },
-    duration: { ru: '9 месяцев до экзамена', en: '9 months until exam' },
+    subject: { ru: 'Математика', en: 'Mathematics' },
+    duration: { ru: '3 месяца занятий', en: '3 months of study' },
     reviewUrl: 'https://profi.ru/profile/SharapovMA13/?utm_medium=share_profile&af_ad_type=share_profile&pid=app&utm_campaign=SharapovMA13&c=SharapovMA13',
     image: reviewImages['4'],
   },
@@ -65,7 +65,7 @@ const reviews: Review[] = [
   },
   {
     id: '6',
-    subject: { ru: 'ОГЭ математика', en: 'OGE Mathematics' },
+    subject: { ru: 'ЕГЭ математика', en: 'EGE Mathematics' },
     duration: { ru: '2 месяца подготовки', en: '2 months of preparation' },
     reviewUrl: 'https://profi.ru/profile/SharapovMA13/?utm_medium=share_profile&af_ad_type=share_profile&pid=app&utm_campaign=SharapovMA13&c=SharapovMA13',
     image: reviewImages['6'],

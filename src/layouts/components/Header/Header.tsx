@@ -1,11 +1,11 @@
 import {
-  ArrowsClockwise,
   BookOpen,
   Briefcase,
   ChatCircle,
   Code,
   CurrencyDollar,
   Envelope,
+  FileText,
   FolderSimple,
   GraduationCap,
   House,
@@ -21,7 +21,7 @@ import { Container } from '../../../shared/ui/Container'
 
 import styles from './Header.module.scss'
 
-type Mode = 'tutor' | 'dev' | null
+type Mode = 'home' | 'tutor' | 'dev' | 'cv' | null
 
 type MenuItem = {
   label: string
@@ -37,22 +37,36 @@ const tutorMenu: MenuItem[] = [
 ]
 
 const devMenu: MenuItem[] = [
-  { label: 'About', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Cases', href: '#cases' },
-  { label: 'Process', href: '#process' },
-  { label: 'Contacts', href: '#contacts' },
+  { label: 'Обо мне', href: '#about' },
+  { label: 'Услуги', href: '#services' },
+  { label: 'Кейсы', href: '#cases' },
+  { label: 'Связаться со мной', href: '#contacts' },
 ]
 
 export function Header() {
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
-  const isLanding = pathname === '/'
+  const isHome = pathname === '/'
 
-  const mode: Mode = pathname.startsWith('/tutor') ? 'tutor' : pathname.startsWith('/dev') ? 'dev' : null
+  const mode: Mode = pathname.startsWith('/tutor')
+    ? 'tutor'
+    : pathname.startsWith('/dev')
+      ? 'dev'
+      : pathname.startsWith('/cv')
+        ? 'cv'
+        : pathname === '/'
+          ? 'home'
+          : null
 
   const menu = mode === 'tutor' ? tutorMenu : mode === 'dev' ? devMenu : []
+
+  const modeTabs = [
+    { to: '/', mode: 'home' as const, icon: <House size={22} weight="bold" />, label: 'Home' },
+    { to: '/tutor', mode: 'tutor' as const, icon: <GraduationCap size={22} weight="bold" />, label: 'Tutor' },
+    { to: '/dev', mode: 'dev' as const, icon: <Code size={22} weight="bold" />, label: 'Dev' },
+    { to: '/cv', mode: 'cv' as const, icon: <FileText size={22} weight="bold" />, label: 'CV' },
+  ]
 
   const hrefToId = useCallback((href: string) => {
     if (!href.startsWith('#')) return ''
@@ -73,6 +87,12 @@ export function Header() {
 
   const activeMenu = activeMenuState.mode === mode ? activeMenuState.label : ''
 
+  // Cycle order for mobile mode button: home → tutor → dev → cv → home
+  const modeOrder: Mode[] = ['home', 'tutor', 'dev', 'cv']
+  const currentIdx = modeOrder.indexOf(mode)
+  const nextIdx = (currentIdx + 1) % modeOrder.length
+  const nextTab = modeTabs[nextIdx]
+
   const idToLabel = useMemo(() => {
     return new Map(
       menu
@@ -83,7 +103,7 @@ export function Header() {
 
   // Auto-highlight the current section while scrolling
   useEffect(() => {
-    if (isLanding || !mode) return
+    if (isHome || !mode) return
     if (idToLabel.size === 0) return
 
     const sectionIds = Array.from(idToLabel.keys())
@@ -120,7 +140,7 @@ export function Header() {
     return () => {
       observer.disconnect()
     }
-  }, [idToLabel, isLanding, mode])
+  }, [idToLabel, isHome, mode])
 
   const renderIcon = (label: string) => {
     const size = 22
@@ -151,52 +171,74 @@ export function Header() {
         return <FolderSimple size={size} weight={weight} />
       case 'FAQ':
         return <Question size={size} weight={weight} />
-      case 'Process':
-      case 'Процесс':
-        return <ArrowsClockwise size={size} weight={weight} />
       case 'Apply':
       case 'Оставить заявку':
         return <ChatCircle size={size} weight={weight} />
       case 'Contacts':
       case 'Контакты':
+      case 'Связаться со мной':
         return <Envelope size={size} weight={weight} />
       default:
         return <Plus size={size} weight={weight} />
     }
   }
 
+  const handleCvDownload = () => {
+    const blob = new Blob([''], { type: 'application/pdf' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'sharapov-cv.pdf'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  if (isHome) {
+    return (
+      <div className={styles.mobileBar}>
+        <div className={styles.mobileModeWrap}>
+          <button
+            type="button"
+            className={styles.mobileModeButton}
+            aria-label={`Switch to ${nextTab.label}`}
+            onClick={() => navigate(nextTab.to)}
+          >
+            <span className={styles.mobileModeIcon}>{nextTab.icon}</span>
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  const hasMenu = menu.length > 0
+
   return (
     <>
-      <header className={[styles.header, isLanding ? styles.isLanding : styles.isExpanded].join(' ')}>
+      <header className={[styles.header, styles.isExpanded].join(' ')}>
         <Container>
           <div className={styles.row}>
             <div className={styles.pillsRow}>
               <div className={styles.modePill}>
                 <div className={styles.segmentWrap}>
-                  <NavLink
-                    to="/tutor"
-                    className={({ isActive }) => [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')}
-                  >
-                    <Button variant="ghost" type="button">
-                      Репетитор
-                    </Button>
-                  </NavLink>
-
-                  <div className={styles.segmentDivider} />
-
-                  <NavLink
-                    to="/dev"
-                    className={({ isActive }) => [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')}
-                  >
-                    <Button variant="ghost" type="button">
-                      Разработчик
-                    </Button>
-                  </NavLink>
+                  {modeTabs.map((tab) => (
+                    <NavLink
+                      key={tab.mode}
+                      to={tab.to}
+                      className={({ isActive }) =>
+                        [styles.navLink, isActive ? styles.navLinkActive : ''].filter(Boolean).join(' ')
+                      }
+                      title={tab.label}
+                    >
+                      <Button variant="ghost" type="button">
+                        {tab.icon}
+                      </Button>
+                    </NavLink>
+                  ))}
                 </div>
               </div>
 
-              <div className={styles.sectionsPill} aria-hidden={isLanding || !mode}>
-                {!isLanding && mode && (
+              {hasMenu && (
+                <div className={styles.sectionsPill}>
                   <nav className={styles.menu} aria-label={`${mode} sections`}>
                     {menu.map((item) => (
                       <a
@@ -217,15 +259,21 @@ export function Header() {
                       </a>
                     ))}
                   </nav>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </Container>
       </header>
 
-      {!isLanding && mode && (
-        <div className={styles.mobileBar}>
+      <div className={styles.mobileBar}>
+        {mode === 'cv' && (
+          <button type="button" className={styles.cvDownloadPill} onClick={handleCvDownload}>
+            ↓ Скачать PDF
+          </button>
+        )}
+
+        {mode === 'tutor' || mode === 'dev' ? (
           <nav className={styles.mobileNav} aria-label={`${mode} mobile navigation`}>
             {menu.map((item) => {
               const isActive = activeMenu === item.label
@@ -247,21 +295,19 @@ export function Header() {
               )
             })}
           </nav>
+        ) : null}
 
-          <div className={styles.mobileModeWrap}>
-            <button
-              type="button"
-              className={styles.mobileModeButton}
-              aria-label={mode === 'tutor' ? 'Switch to Dev' : 'Switch to Tutor'}
-              onClick={() => {
-                navigate(mode === 'tutor' ? '/dev' : '/tutor')
-              }}
-            >
-              <span className={styles.mobileModeIcon}>{mode === 'tutor' ? renderIcon('MODE_DEV') : renderIcon('MODE_TUTOR')}</span>
-            </button>
-          </div>
+        <div className={styles.mobileModeWrap}>
+          <button
+            type="button"
+            className={styles.mobileModeButton}
+            aria-label={`Switch to ${nextTab.label}`}
+            onClick={() => navigate(nextTab.to)}
+          >
+            <span className={styles.mobileModeIcon}>{nextTab.icon}</span>
+          </button>
         </div>
-      )}
+      </div>
     </>
   )
 }

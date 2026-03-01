@@ -22,7 +22,7 @@ export function TutorHero() {
 
             <div className={styles.actions}>
               <a className={styles.primaryLink} href="#apply">
-                К заяквке
+                К заявке
               </a>
 
               <a className={styles.secondaryLink} href="#pricing">

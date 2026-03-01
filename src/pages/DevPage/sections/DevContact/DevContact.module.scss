@@ -1,0 +1,273 @@
+@use '../../../../shared/styles/variables' as *;
+@use '../../../../shared/styles/mixins' as m;
+
+.section {
+  padding: $space-10 0 $space-8;
+  margin-top: 150px;
+  scroll-margin-top: 150px;
+}
+
+.header {
+  text-align: left;
+  margin-bottom: $space-8;
+}
+
+.title {
+  font-size: $fs-32;
+  line-height: $lh-tight;
+  font-weight: $fw-bold;
+  color: $text;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin-top: $space-3;
+  font-size: $fs-16;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  max-width: 52ch;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $space-8;
+  align-items: stretch;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+  @include m.glass-panel($radius: $radius-lg, $padding: $space-5);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $space-4;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border-radius: $radius-md;
+  padding: 12px 12px;
+  min-height: 44px;
+  line-height: $lh-normal;
+
+  color: $text;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  transition:
+    border-color $dur-3 $ease-out,
+    background $dur-3 $ease-out,
+    transform $dur-3 $ease-out;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: $text-muted;
+}
+
+.input:hover,
+.textarea:hover {
+  background: rgba(255, 255, 255, 0.055);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+}
+
+.input:focus-visible,
+.textarea:focus-visible {
+  @include m.focus-ring;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.formActions {
+  display: flex;
+  align-items: center;
+  gap: $space-4;
+  margin-top: $space-2;
+}
+
+.inputError {
+  border-color: var(--accent) !important;
+}
+
+.errorMessage {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  line-height: $lh-normal;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+.successState {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: $space-3;
+}
+
+.successTitle {
+  font-size: $fs-24;
+  font-weight: $fw-bold;
+  line-height: $lh-tight;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.successText {
+  font-size: $fs-16;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  margin: 0;
+}
+
+.infoGraphic {
+  padding: $space-6;
+}
+
+.infoGraphicTitle {
+  font-size: $fs-20;
+  line-height: $lh-tight;
+  font-weight: $fw-semibold;
+  color: $text;
+  margin-bottom: $space-6;
+  letter-spacing: -0.02em;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: flex;
+  gap: $space-4;
+  align-items: flex-start;
+}
+
+.stepNumber {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: $fs-14;
+  font-weight: $fw-bold;
+  line-height: 1;
+}
+
+.stepContent {
+  flex: 1;
+  min-width: 0;
+  padding-top: $space-2;
+}
+
+.stepTitle {
+  font-size: $fs-16;
+  line-height: $lh-tight;
+  font-weight: $fw-semibold;
+  color: $text;
+  margin-bottom: $space-1;
+}
+
+.stepDescription {
+  font-size: $fs-14;
+  line-height: $lh-relaxed;
+  color: $text-muted;
+  margin: 0;
+}
+
+.stepConnector {
+  position: relative;
+  width: 2px;
+  height: $space-6;
+  margin: $space-2 0 $space-2 20px;
+  background: linear-gradient(
+    to bottom,
+    var(--accent-soft),
+    var(--accent)
+  );
+  border-radius: 2px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: ($bp-md - 1px)) {
+  .section {
+    padding-top: $space-5;
+    scroll-margin-top: 0;
+  }
+
+  .title {
+    font-size: $fs-24;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: $space-6;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .infoGraphic {
+    padding: $space-5;
+  }
+
+  .stepConnector {
+    height: $space-5;
+    margin: $space-2 0 $space-2 20px;
+
+    &::before {
+      top: -3px;
+    }
+
+    &::after {
+      bottom: -3px;
+    }
+  }
+}

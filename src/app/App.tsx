@@ -7,7 +7,8 @@ export default function App() {
   const getMode = (pathname: string) => {
     if (pathname.startsWith('/tutor')) return 'tutor'
     if (pathname.startsWith('/dev')) return 'dev'
-    return 'tutor'
+    if (pathname.startsWith('/cv')) return 'cv'
+    return 'home'
   }
 
   const [mode, setMode] = useState(() => getMode(window.location.pathname))
