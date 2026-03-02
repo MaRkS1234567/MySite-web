@@ -1,26 +1,10 @@
 import { ArrowUpRight, Code, GithubLogo, PaperPlaneTilt, Phone } from '@phosphor-icons/react'
 
-import cvPdfUrl from '../../assets/files/msrksharapov-cv.pdf?url'
 import markPhoto from '../../assets/images/mark-silhouette.png'
 
 import styles from './CvPage.module.scss'
 import { GitHubStats } from './GitHubStats'
 
-async function downloadCv() {
-  try {
-    const res = await fetch(cvPdfUrl)
-    if (!res.ok) throw new Error('fetch failed')
-    const blob = await res.blob()
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'marksharapov-cv.pdf'
-    a.click()
-    URL.revokeObjectURL(url)
-  } catch {
-    window.open(cvPdfUrl, '_blank')
-  }
-}
 
 const contacts = [
   { Icon: PaperPlaneTilt, text: '@marksharapov', href: 'https://t.me/marksharapov' },
@@ -217,9 +201,9 @@ export function CvPage() {
 
       {/* BOTTOM BAR */}
       <div className={styles.bottomBar}>
-        <button type="button" onClick={downloadCv} className={styles.downloadBtn}>
+        <a href="/marksharapov-cv.pdf" download="marksharapov-cv.pdf" target="_blank" rel="noopener noreferrer" className={styles.downloadBtn}>
           ↓ Скачать PDF
-        </button>
+        </a>
       </div>
     </div>
   )
